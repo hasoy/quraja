@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { db } from "@/lib/firestore";
 import { doc, getDoc } from "firebase/firestore";
 import AddMistakesPerAya from "@/components/AddMistakesPerAya";
-import { addMistake, getUser } from "@/context/user";
 
 export default function SuraView() {
   const [sura, setSura] = useState([""]);
@@ -49,7 +48,7 @@ export default function SuraView() {
             key={ayaNumber}
             text={aya}
             ayaNumber={ayaNumber}
-            // TODO: fix
+            // PERF: fix
             pageNumber={ayaNumber}
           ></AddMistakesPerAya>
         ))}

@@ -19,6 +19,7 @@ interface DropdownMenuProps {
   items: { value: string; label: string }[];
 }
 
+// TODO: Transform this to use popover instead of dropdown menu?
 export default function DropdownMenus(props: DropdownMenuProps) {
   return (
     <DropdownMenu open={props.openMenu} onOpenChange={props.setOpenMenu}>

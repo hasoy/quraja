@@ -5,16 +5,17 @@ export const Navbar = () => {
   const links = [
     { link: "/", label: "Home" },
     { link: "/quran", label: "Quran" },
+    { link: "/pageOverview", label: "Page Overview" },
     // { link: "revise", label: "Revise" },
     // { link: "history", label: "History" },
     // { link: "profile", label: "Profile" },
     // { link: "contact", label: "Contact" },
   ];
   return (
-    <ul className="flex gap-8 m-4">
+    <ul className="m-4 flex gap-8">
       {links.map((link) => (
         <Link href={link.link} key={link.label}>
-          <li className="bg-black text-white px-4 py-2 rounded-lg hover:bg-slate-600">
+          <li className="rounded-lg bg-black px-4 py-2 text-white hover:bg-slate-600">
             {link.label}
           </li>
         </Link>
