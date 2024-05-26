@@ -5,7 +5,7 @@ export const Navbar = () => {
   const links = [
     { link: "/", label: "Home" },
     { link: "/quran", label: "Quran" },
-    { link: "/pageOverview", label: "Page Overview" },
+    { link: "/pages", label: "Page Overview" },
     // { link: "revise", label: "Revise" },
     // { link: "history", label: "History" },
     // { link: "profile", label: "Profile" },

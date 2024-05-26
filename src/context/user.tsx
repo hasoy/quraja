@@ -1,31 +1,10 @@
 "use client";
 import { toast } from "sonner";
-import { IPageData } from "@/components/PagesTable";
 import { calculateMistakeScore, calculateScore } from "@/helpers/score";
 import { db } from "@/lib/firestore";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
-import { createContext } from "react";
-import { IMistake } from "@/types/ayat.types";
-
-type IPageMistakeMap = Map<string, IMistakeMap>;
-export type IMistakeMap = Map<string, IMistake>;
-
-interface IUser {
-  id: string;
-  allMistakes: IPageMistakeMap;
-  pageData: IPageData[];
-}
-
-// TODO: add context and make it available to all functions/pages
-// also fill it with data from the backend on load
-const UserContext = createContext({} as IUser);
-
-export function UserProvider({ children }: { children: React.ReactNode }) {
-  return (
-    <UserContext.Provider value={{} as IUser}>{children}</UserContext.Provider>
-  );
-}
+import { IMistakeMap, IPageData, IUser } from "@/types/user.types";
 
 // Convert Map to Object
 function mapToObject(map: Map<any, any>): any {
@@ -53,6 +32,11 @@ function objectToMap(obj: any): Map<any, any> {
     }
   }
   return map;
+}
+
+export function getUserId() {
+  // TODO: generate userid and push to DB and pull it here
+  return "test";
 }
 
 export async function getUser(userId: string) {

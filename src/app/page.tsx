@@ -25,7 +25,7 @@ export default function Home() {
         camels which are hobbled.
         <a
           href="https://sunnah.com/muslim:791"
-          className="underline text-blue-600"
+          className="text-blue-600 underline"
         >
           link
         </a>

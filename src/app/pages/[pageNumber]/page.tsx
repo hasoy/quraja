@@ -1,25 +1,28 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { db } from "@/lib/firestore";
 import { doc, getDoc } from "firebase/firestore";
 import QuranPage from "@/components/QuranPage";
-import { getUser } from "@/context/user";
+import LoadingElement from "@/components/LoadingElement";
+import { IMistakeMap } from "@/types/user.types";
+import { UserContext } from "@/context/UserProvider";
+import { useParams } from "next/navigation";
 export default function PageView() {
+  const userData = useContext(UserContext);
   const [ayaat, setAyaat] = useState([""]);
   const [loading, setLoading] = useState(false);
-  const [userMistakes, setUserMistakes] = useState(new Map());
-
+  const [userMistakes, setUserMistakes] = useState<IMistakeMap>();
   const { pageNumber } = useParams();
+
   const getPageData = async () => {
     const pageNumberInt = Number(pageNumber);
     if (pageNumberInt > 606 || pageNumberInt < 1) {
       setAyaat(["This page does not exist"]);
       return;
     }
-    setLoading(true);
     try {
+      setLoading(true);
       const docRef = doc(db, "page", pageNumber.toString());
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
@@ -27,9 +30,9 @@ export default function PageView() {
       } else {
         setAyaat(["This page does not exist"]);
       }
-      await getAllMistakesByUser("test", pageNumber.toString());
+      setUserMistakes(userData.allMistakes.get(pageNumber.toString()));
     } catch (error) {
-      console.error("Error getting document");
+      console.error("Error getting page data");
     } finally {
       setLoading(false);
     }
@@ -39,27 +42,10 @@ export default function PageView() {
     getPageData();
   }, []);
 
-  // TODO: add loading spinner/cleaner ui
-  const LoadingElement = <div>loading</div>;
-
-  async function getAllMistakesByUser(userId: string, pageNumber: string) {
-    // TODO: make a general context function for pulling the user data and use that instead of calling the backend
-    try {
-      const user = await getUser(userId);
-      // FIX: If page has no pagemistakes yet it says allMistakes undefined, below code seems to fix it but check if smarter way
-      const map = user.allMistakes.has(pageNumber)
-        ? user.allMistakes.get(pageNumber)
-        : new Map();
-      setUserMistakes(map);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   return (
     <>
       {loading ? (
-        LoadingElement
+        <LoadingElement />
       ) : (
         <QuranPage
           ayaat={ayaat}

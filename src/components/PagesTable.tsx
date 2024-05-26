@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import {
   TableHead,
   TableRow,
@@ -14,19 +14,7 @@ import {
   getDaysFromToday,
   getDaysLabel,
 } from "@/helpers/score";
-
-export interface IPageData {
-  pageNumber: number;
-  score: number;
-  totalRevisions: number;
-  mistakes: number;
-  streak: number;
-  lastRevised: string;
-}
-
-interface PageTableProps {
-  data: IPageData[];
-}
+import { UserContext } from "@/context/UserProvider";
 
 const TableHeaders = [
   "Page Number",
@@ -37,11 +25,13 @@ const TableHeaders = [
   "Last Revised",
 ];
 
-const PageTable = (props: PageTableProps) => {
+const PageTable = () => {
   const router = useRouter();
+  const userData = useContext(UserContext);
+  console.log("user data mistakes", userData.allMistakes);
   // TODO: add sorting to table
   function navigatePage(pageNumber: number) {
-    router.push(`/page/${pageNumber}`);
+    router.push(`/pages/${pageNumber}`);
   }
 
   return (
@@ -54,7 +44,7 @@ const PageTable = (props: PageTableProps) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {props.data.map((page) => (
+        {userData?.pageData?.map((page) => (
           <TableRow
             key={page.pageNumber}
             onClick={() => navigatePage(page.pageNumber)}

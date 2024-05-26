@@ -54,5 +54,3 @@ export const calculateScore = (
   tempScore += calculateTimeScore(date);
   return tempScore;
 };
-
-console.log(calculateScore(7, 0, new Date().toString()), "score");

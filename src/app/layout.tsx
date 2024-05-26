@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
-import { UserProvider } from "@/context/user";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
+import { UserProvider } from "@/context/UserProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,14 +21,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-red-200">
-      <UserProvider>
-        <body className={inter.className}>
-          <Navbar></Navbar>
-          {children}
-          <Footer />
-          <Toaster />
-        </body>
-      </UserProvider>
+      <body className={inter.className}>
+        <Navbar></Navbar>
+        <UserProvider>{children}</UserProvider>
+        {/* FIX: the footer */}
+        {/* <Footer /> */}
+        <Toaster />
+      </body>
     </html>
   );
 }
