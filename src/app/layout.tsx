@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { UserProvider } from "@/context/UserProvider";
+import { AuthProvider } from "@/context/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,13 +21,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-red-200">
+    <html lang="en" className="bg-slate-200">
       <body className={inter.className}>
-        <Navbar></Navbar>
-        <UserProvider>{children}</UserProvider>
-        {/* FIX: the footer */}
-        {/* <Footer /> */}
-        <Toaster />
+        <AuthProvider>
+          <Navbar></Navbar>
+          <UserProvider>{children}</UserProvider>
+          {/* FIX: the footer */}
+          {/* <Footer /> */}
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );

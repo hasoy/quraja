@@ -1,0 +1,271 @@
+"use client";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Typography from "./Typography";
+import FaqHome from "@/components/FaqHome";
+import { Button } from "@/components/ui/button";
+import heroImage from "@/assets/images/hero.jpeg";
+
+export default function HomePage() {
+  const router = useRouter();
+  return (
+    <main className="container mx-auto flex min-h-[100dvh] w-full flex-1 flex-col space-y-10">
+      <section className="mx-auto grid max-w-[1300px] gap-4 px-4 py-20 sm:px-6 md:grid-cols-2 md:gap-16 md:px-10">
+        <div>
+          <Typography tag="h1">
+            Your Quran Revision Tracker And Coach
+          </Typography>
+          <Typography tag="p">
+            Streamline your hifdh, mark mistakes, and know what to revise next.
+            Finally start revising with a clear overview. Focus more on
+            memorizing ayat than memorizing your mistakes and revision schedule.
+          </Typography>
+          <div className="mt-20 space-x-4">
+            <Button onClick={() => router.push("/signin")}>Sign up</Button>
+            <Button variant={"outline"} onClick={() => router.push("/login")}>
+              Log in
+            </Button>
+          </div>
+        </div>
+        <Image
+          alt="Hero"
+          className="mx-auto aspect-square overflow-hidden rounded-xl object-bottom sm:w-full lg:order-last lg:aspect-square"
+          height="550"
+          src={heroImage}
+          width="550"
+        />
+      </section>
+      <section className="w-full py-12 md:py-24 lg:py-32" id="features">
+        <div className="container space-y-12 px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+              Streamline Your Muraja journey
+            </h2>
+            <p className="max-w-[900px] text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              Discover how Quraja can transform your Muraja process.
+            </p>
+          </div>
+          <div className="mx-auto grid items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3">
+            {/* TODO: Make these cards with images of what the app does per block */}
+            <div className="grid gap-1">
+              <div className="flex items-center gap-2 rounded-md bg-gray-100 p-4 dark:bg-gray-800">
+                <BookIcon className="h-6 w-6" />
+                <Typography tag={"h4"}>Score per page</Typography>
+              </div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Keep track and get a score per page to know what to revise next.
+              </p>
+            </div>
+            <div className="grid gap-1">
+              <div className="flex items-center gap-2 rounded-md bg-gray-100 p-4 dark:bg-gray-800">
+                <PencilIcon className="h-6 w-6" />
+                <Typography tag={"h4"}>Mark Mistakes</Typography>
+              </div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Identify and mark your mistakes as you revise.
+              </p>
+            </div>
+            <div className="grid gap-1">
+              <div className="flex items-center gap-2 rounded-md bg-gray-100 p-4 dark:bg-gray-800">
+                <CalendarIcon className="h-6 w-6" />
+                <Typography tag={"h4"}>Keep track of revision</Typography>
+              </div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Track when you last revised and how many times.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="container mx-auto w-full space-y-6 px-4 py-12 text-center md:px-6 md:py-24 lg:py-32">
+        <Typography tag="h2">
+          Everyone knows memorizing is easy, but revising is hard.
+        </Typography>
+        <Typography tag="p">
+          It is time to change that. With Quraja, you can focus on memorizing.
+        </Typography>
+        <Typography tag="h3">
+          As the Hadith from Sahih Muslim states:
+        </Typography>
+        <Typography tag="blockquote" className="whitespace-pre border-none">
+          <a
+            href="https://sunnah.com/muslim:791"
+            className="cursor-pointer p-1 hover:bg-purple-600 hover:text-white hover:underline"
+            target="_blank"
+          >
+            {`Keep refreshing your knowledge of the Quran, for I swear by Him in\nWhose Hand is the life of Muhammad that it is more liable to escape\nthan camels which are hobbled.`}
+          </a>
+        </Typography>
+        <br />
+      </section>
+      {/* <section */}
+      {/*   className="w-full bg-gray-100 py-12 dark:bg-gray-800 md:py-24 lg:py-32" */}
+      {/*   id="FAQ" */}
+      {/* > */}
+      {/*   <FaqHome></FaqHome> */}
+      {/* </section> */}
+    </main>
+  );
+}
+
+function BookIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+    </svg>
+  );
+}
+
+function CalendarIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M8 2v4" />
+      <path d="M16 2v4" />
+      <rect width="18" height="18" x="3" y="4" rx="2" />
+      <path d="M3 10h18" />
+    </svg>
+  );
+}
+
+function CheckIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M20 6 9 17l-5-5" />
+    </svg>
+  );
+}
+
+function LogInIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+      <polyline points="10 17 15 12 10 7" />
+      <line x1="15" x2="3" y1="12" y2="12" />
+    </svg>
+  );
+}
+
+function PencilIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+      <path d="m15 5 4 4" />
+    </svg>
+  );
+}
+
+function PowerIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 2v10" />
+      <path d="M18.4 6.6a9 9 0 1 1-12.77.04" />
+    </svg>
+  );
+}
+
+function TimerIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="10" x2="14" y1="2" y2="2" />
+      <line x1="12" x2="15" y1="14" y2="11" />
+      <circle cx="12" cy="14" r="8" />
+    </svg>
+  );
+}
+
+function XIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M18 6 6 18" />
+      <path d="m6 6 12 12" />
+    </svg>
+  );
+}

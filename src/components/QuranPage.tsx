@@ -1,12 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AddMistakesPerAya from "./AddMistakesPerAya";
 import { Button } from "./ui/button";
-import {
-  IMistakeMap,
-  saveNewPageMistakes,
-  updatePageData,
-} from "@/context/user";
+import { saveNewPageMistakes, updatePageData } from "@/context/user";
+import { AuthContext } from "@/context/AuthProvider";
+import { UserContext } from "@/context/UserProvider";
+import { IMistakeMap } from "@/types/ayat.types";
 interface QuranPageProps {
   ayaat: string[];
   pageNumber: number;
@@ -16,9 +15,21 @@ interface QuranPageProps {
 }
 
 export default function QuranPage(props: QuranPageProps) {
+  const authData = useContext(AuthContext);
+  const userData = useContext(UserContext);
   function addRevision(): void {
-    updatePageData("test", props.pageNumber);
-    saveNewPageMistakes("test", localMistakes, props.pageNumber.toString());
+    updatePageData(
+      userData,
+      props.pageNumber,
+      authData.uid,
+      localMistakes.size,
+    );
+    saveNewPageMistakes(
+      authData.uid,
+      localMistakes,
+      props.pageNumber.toString(),
+      userData,
+    );
   }
   // FIX: if all mistakes is empty, test if the ternary works
   const [localMistakes, setLocalMistakes] = useState(

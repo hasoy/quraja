@@ -7,7 +7,7 @@ import {
   wordMistakesOptions,
 } from "@/constants/dropdown-values";
 import { toast } from "sonner";
-import { IMistakeMap } from "@/context/user";
+import { IMistakeMap } from "@/types/ayat.types";
 
 interface AddMistakesProps {
   text: string;
@@ -31,6 +31,11 @@ export default function AddMistakesPerAya({
   const pageAndAyaNumber = `${pageNumber}-${ayaNumber}`;
   // TODO: add ability to change a mistake
 
+  function setNewMap(oldMap: Map<string, { mistake: string; note?: string }>) {
+    const newMap = new Map(oldMap);
+    setAllMistakes(newMap);
+  }
+
   function HandleLetterClicked(e: MouseEvent) {
     if (!e.target) return;
     const ctrlPressed = e.ctrlKey;
@@ -39,16 +44,19 @@ export default function AddMistakesPerAya({
     const target = e.target as HTMLElement;
 
     if (allMistakes.has(currentId)) {
-      const newMistake = allMistakes.get(currentId);
-      toast(`Letter mistake deleted`, {
-        description: `Deleted \n ${newMistake?.note ?? ""}`,
+      const deletedMistake = allMistakes.get(currentId);
+      toast(`Letter mistake fixed`, {
+        description: `Deleted \n ${deletedMistake?.mistake} ${deletedMistake?.note ?? ""}`,
         action: {
           label: "Undo",
-          onClick: () => allMistakes.set(currentId, newMistake),
+          onClick: () => {
+            allMistakes.set(currentId, deletedMistake);
+            setNewMap(allMistakes);
+          },
         },
       });
       allMistakes.delete(currentId);
-      setAllMistakes(allMistakes);
+      setNewMap(allMistakes);
       return;
     }
     setSelectedId(currentId);
@@ -56,7 +64,7 @@ export default function AddMistakesPerAya({
 
     setOpenLetterMenu(true);
     allMistakes.set(currentId, { mistake: target.innerText });
-    setAllMistakes(allMistakes);
+    setNewMap(allMistakes);
   }
 
   function handleWordClicked(
@@ -70,42 +78,47 @@ export default function AddMistakesPerAya({
 
     if (allMistakes.has(wordId)) {
       const wordMistake = allMistakes.get(wordId);
-      toast(`Word mistake deleted`, {
-        description: `Deleted \n ${wordMistake?.note ?? ""}`,
+      toast(`Word mistake fixed`, {
+        description: `Deleted \n ${wordMistake?.mistake} ${wordMistake?.note ?? ""}`,
         action: {
           label: "Undo",
-          onClick: () => allMistakes.set(wordId, wordMistake),
+          onClick: () => {
+            allMistakes.set(wordId, wordMistake);
+            setNewMap(allMistakes);
+          },
         },
       });
       allMistakes.delete(wordId);
-      setAllMistakes(allMistakes);
+      setNewMap(allMistakes);
       return;
     }
     setSelectedId(wordId);
     setOpenWordMenu(true);
     // TODO: make an async await on the open aya menu and only then add the mistake
     allMistakes.set(wordId, { mistake: word });
-    setAllMistakes(allMistakes);
+    setNewMap(allMistakes);
   }
 
   function handleAyaClicked(pageAndAya: string, mistake: string): void {
     if (allMistakes.has(pageAndAya)) {
       const ayaMistake = allMistakes.get(pageAndAya);
-      toast(`aya mistake deleted`, {
-        description: `Deleted \n ${ayaMistake?.note ?? ""}`,
+      toast(`Aya mistake fixed`, {
+        description: `Deleted \n ${ayaMistake?.mistake} ${ayaMistake?.note ?? ""}`,
         action: {
           label: "Undo",
-          onClick: () => allMistakes.set(pageAndAya, { mistake }),
+          onClick: () => {
+            allMistakes.set(pageAndAya, { mistake }), setNewMap(allMistakes);
+          },
         },
       });
       allMistakes.delete(pageAndAya);
-      setAllMistakes(allMistakes);
+      setNewMap(allMistakes);
       return;
     }
     setOpenAyaMenu(true);
     // TODO: make an async await on the open aya menu and only then add the mistake
     allMistakes.set(pageAndAya, { mistake });
-    setAllMistakes(allMistakes);
+    setNewMap(allMistakes);
   }
 
   function setAyaValue(pageAndAya: string, value: string) {

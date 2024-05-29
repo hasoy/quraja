@@ -1,24 +1,22 @@
 "use client";
 import { IUser } from "@/types/user.types";
-import { createContext, useEffect, useState } from "react";
-import { getUser, getUserId } from "./user";
+import { createContext, useContext, useEffect, useState } from "react";
+import { subscribeToUser } from "./user";
+import { AuthContext } from "./AuthProvider";
 
 export const UserContext = createContext({} as IUser);
 export function UserProvider({ children }: any) {
   const [userData, setUserData] = useState<IUser | null>(null);
+  const authData = useContext(AuthContext);
 
   useEffect(() => {
     getUserData();
-  }, []);
+  }, [authData]);
 
-  const getUserData = async () => {
-    try {
-      const data = await getUser(getUserId());
-
-      setUserData(data);
-    } catch (error) {
-      console.error(error);
-    }
+  const getUserData = () => {
+    subscribeToUser(authData?.uid, (user) => {
+      setUserData(user);
+    });
   };
   return (
     <UserContext.Provider value={userData}>{children}</UserContext.Provider>

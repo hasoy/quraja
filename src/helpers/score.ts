@@ -19,8 +19,8 @@ export const getDaysLabel = (days: number) => {
 
 export const calculateMistakeScore = (mistakeCount: number) => {
   let temp = mistakeCount;
-  if (mistakeCount > 6) temp = 6;
-  return 3 - temp * 0.5;
+  if (mistakeCount > 8) temp = 8;
+  return 4 - temp * 0.5;
 };
 
 export const calculateTimeScore = (lastRevised: string) => {
@@ -40,7 +40,7 @@ export const calculateTimeScore = (lastRevised: string) => {
 export const calculateRevisionScore = (totalRevisions: number) => {
   let temp = totalRevisions;
   if (totalRevisions > 10) temp = 10;
-  return temp * 0.3;
+  return temp * 0.2;
 };
 
 export const calculateScore = (

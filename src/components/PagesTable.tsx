@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   TableHead,
   TableRow,
@@ -15,6 +15,8 @@ import {
   getDaysLabel,
 } from "@/helpers/score";
 import { UserContext } from "@/context/UserProvider";
+import { getUser } from "@/context/user";
+import { AuthContext } from "@/context/AuthProvider";
 
 const TableHeaders = [
   "Page Number",
@@ -28,11 +30,20 @@ const TableHeaders = [
 const PageTable = () => {
   const router = useRouter();
   const userData = useContext(UserContext);
-  console.log("user data mistakes", userData.allMistakes);
+  const authData = useContext(AuthContext);
+  // TODO: check if deleting this did impact it
+  // useEffect(() => {
+  //   if (!userData) {
+  //     getUser(authData?.uid);
+  //   }
+  // }, [authData]);
+
   // TODO: add sorting to table
   function navigatePage(pageNumber: number) {
     router.push(`/pages/${pageNumber}`);
   }
+
+  // TODO: add a array with empty pages and empty data so the user can see all pages and navigate to new ones
 
   return (
     <Table className="my-4 overflow-auto rounded-lg border">

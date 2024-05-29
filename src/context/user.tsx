@@ -2,7 +2,7 @@
 import { toast } from "sonner";
 import { calculateMistakeScore, calculateScore } from "@/helpers/score";
 import { db } from "@/lib/firestore";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, onSnapshot } from "firebase/firestore";
 
 import { IMistakeMap, IPageData, IUser } from "@/types/user.types";
 
@@ -34,11 +34,6 @@ function objectToMap(obj: any): Map<any, any> {
   return map;
 }
 
-export function getUserId() {
-  // TODO: generate userid and push to DB and pull it here
-  return "test";
-}
-
 export async function getUser(userId: string) {
   const user = doc(db, "user", userId);
   const req = await getDoc(user);
@@ -51,6 +46,33 @@ export async function getUser(userId: string) {
   };
   return userData as unknown as IUser;
 }
+export function subscribeToUser(
+  userId: string,
+  callback: (user: IUser) => void,
+) {
+  const user = doc(db, "user", userId);
+
+  const unsubscribe = onSnapshot(user, (docSnapshot) => {
+    if (docSnapshot.exists()) {
+      const data = docSnapshot.data();
+      console.log("reloading data");
+
+      if (data) {
+        const mappedData = objectToMap(data.allMistakes);
+        const userData = {
+          ...data,
+          allMistakes: mappedData,
+        };
+        callback(userData as unknown as IUser);
+      }
+    } else {
+      // TODO: create user in db and push to db
+      callback({ id: userId, allMistakes: new Map(), pageData: [] });
+    }
+  });
+
+  return unsubscribe;
+}
 
 export async function updateUserMistakes(
   userId: string,
@@ -60,13 +82,10 @@ export async function updateUserMistakes(
   await updateDoc(user, { allMistakes: newMistakes });
 }
 
-export async function updatePageData(userId: string, pageNumber: number) {
-  // TODO: add a loading and disable button to prevent multiple requests being sent
-  const user = doc(db, "user", userId);
-  const userData = await getUser(userId);
-  const mistakeCount = userData.allMistakes.size;
+// Function to create a new page
+function createNewPage(pageNumber: number, mistakeCount: number): IPageData {
   const dateNow = new Date().toString();
-  let newPage: IPageData = {
+  return {
     pageNumber: pageNumber,
     lastRevised: dateNow,
     mistakes: mistakeCount,
@@ -74,26 +93,50 @@ export async function updatePageData(userId: string, pageNumber: number) {
     totalRevisions: 1,
     score: 4 + calculateMistakeScore(mistakeCount),
   };
-  const hasPageNumberAlready = userData.pageData.some(
+}
+
+// Function to update an existing page
+function updateExistingPage(
+  page: IPageData,
+  newPage: IPageData,
+  mistakeCount: number,
+): IPageData {
+  return {
+    ...newPage,
+    streak: mistakeCount > 0 ? 1 : page.streak + 1,
+    totalRevisions: page.totalRevisions + 1,
+    score: calculateScore(
+      page.totalRevisions + 1,
+      mistakeCount,
+      newPage.lastRevised,
+    ),
+  };
+}
+
+export async function updatePageData(
+  userData: IUser,
+  pageNumber: number,
+  userId: string,
+  mistakeCount: number,
+) {
+  const user = doc(db, "user", userId);
+  let newPage = createNewPage(pageNumber, mistakeCount);
+
+  let newPageArray: IPageData[] = userData?.pageData || [];
+  const hasPageNumberAlready = newPageArray.some(
     (page) => page.pageNumber == pageNumber,
   );
-  let newPageArray: IPageData[];
+
   if (hasPageNumberAlready) {
-    newPageArray = userData.pageData.map((page: IPageData) => {
-      if (page.pageNumber == pageNumber) {
-        const newData = {
-          ...newPage,
-          streak: mistakeCount > 0 ? 1 : page.streak + 1,
-          totalRevisions: page.totalRevisions + 1,
-          score: calculateScore(page.totalRevisions + 1, mistakeCount, dateNow),
-        };
-        return newData;
-      }
-      return page;
-    });
+    newPageArray = newPageArray.map((page: IPageData) =>
+      page.pageNumber == pageNumber
+        ? updateExistingPage(page, newPage, mistakeCount)
+        : page,
+    );
   } else {
-    newPageArray = [...userData.pageData, newPage];
+    newPageArray = [...newPageArray, newPage];
   }
+
   try {
     await updateDoc(user, { pageData: newPageArray });
   } catch (error) {
@@ -107,9 +150,9 @@ export async function saveNewPageMistakes(
   userId: string,
   newPageMistakes: IMistakeMap,
   pageNumber: string,
+  userData: IUser,
 ) {
   const user = doc(db, "user", userId);
-  const userData = await getUser(userId);
   const dbMap = userData.allMistakes;
   dbMap.delete(pageNumber);
   dbMap.set(pageNumber, newPageMistakes);
