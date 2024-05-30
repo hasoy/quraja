@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { loginUser, signUpUser } from "@/lib/auth";
+import { loginUser, loginWithGoogle, signUpUser } from "@/lib/auth";
 
 export function LoginForm() {
   const router = useRouter();
@@ -70,10 +68,13 @@ export function LoginForm() {
           <Button className="w-full" onClick={handleLogin}>
             {login ? "Login" : "Sign up"}
           </Button>
-          {/* TODO: add google support */}
-          {/* <Button variant="outline" className="w-full"> */}
-          {/*   Login with Google */}
-          {/* </Button> */}
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={loginWithGoogle}
+          >
+            Login with Google
+          </Button>
         </div>
         <div className="mt-4 text-center text-sm">
           {login ? (

@@ -21,8 +21,6 @@ export default function Profile() {
   return (
     <div className="flex min-h-screen w-full flex-col">
       <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
-        <Button onClick={logOutUser}>Logout</Button>
-        {authData && <Typography tag="h1">{authData.uid}</Typography>}
         <div className="mx-auto grid w-full max-w-6xl gap-2">
           <Typography tag="h1">User Settings</Typography>
         </div>
@@ -31,57 +29,58 @@ export default function Profile() {
             <Link href="#" className="font-semibold text-primary">
               General
             </Link>
-            <Link href="#">Security</Link>
-            <Link href="#">Integrations</Link>
-            <Link href="#">Support</Link>
-            <Link href="#">Organizations</Link>
-            <Link href="#">Advanced</Link>
+            {/* <Link href="#">Visual</Link> */}
+            {/* <Link href="#">Data</Link> */}
+            {/* <Link href="#">Support</Link> */}
+            {/* <Link href="#">FAQ</Link> */}
+            {/* <Link href="#">Donate</Link> */}
           </nav>
           <div className="grid gap-6">
+            {/* TODO: add settings and other stuff for hte user */}
+            {/* <Card> */}
+            {/*   <CardHeader> */}
+            {/*     <CardTitle>Settings</CardTitle> */}
+            {/*     <CardDescription> */}
+            {/*       Change how the app looks for you */}
+            {/*     </CardDescription> */}
+            {/*   </CardHeader> */}
+            {/*   <CardContent> */}
+            {/*     <form> */}
+            {/*       <Input placeholder="Highlight colors" /> */}
+            {/*     </form> */}
+            {/*   </CardContent> */}
+            {/*   <CardFooter className="border-t px-6 py-4"> */}
+            {/*     <Button>Save</Button> */}
+            {/*   </CardFooter> */}
+            {/* </Card> */}
+            {/* <Card> */}
+            {/*   <CardHeader> */}
+            {/*     <CardTitle>Progression</CardTitle> */}
+            {/*     <CardDescription> */}
+            {/*       Data about your progression of the Quran */}
+            {/*     </CardDescription> */}
+            {/*   </CardHeader> */}
+            {/*   <CardContent> */}
+            {/*     <form> */}
+            {/*       <Input placeholder="Store Name" /> */}
+            {/*     </form> */}
+            {/*   </CardContent> */}
+            {/*   <CardFooter className="border-t px-6 py-4"> */}
+            {/*     <Button>Save</Button> */}
+            {/*   </CardFooter> */}
+            {/* </Card> */}
             <Card>
               <CardHeader>
-                <CardTitle>Store Name</CardTitle>
+                <CardTitle>Log out</CardTitle>
                 <CardDescription>
-                  Used to identify your store in the marketplace.
+                  Log out of your account with id:
+                  {authData && <p>{authData.uid}</p>}
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <form>
-                  <Input placeholder="Store Name" />
-                </form>
-              </CardContent>
+
               <CardFooter className="border-t px-6 py-4">
-                <Button>Save</Button>
+                <Button onClick={logOutUser}>Logout</Button>
               </CardFooter>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Plugins Directory</CardTitle>
-                <CardDescription>
-                  The directory within your project, in which your plugins are
-                  located.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form className="flex flex-col gap-4">
-                  <Input
-                    placeholder="Project Name"
-                    defaultValue="/content/plugins"
-                  />
-                  <div className="flex items-center space-x-2">
-                    <label
-                      htmlFor="include"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      Allow administrators to change the directory.
-                    </label>
-                  </div>
-                </form>
-              </CardContent>
-              <CardFooter className="border-t px-6 py-4">
-                <Button>Save</Button>
-              </CardFooter>
-              <Button>Log Out</Button>
             </Card>
           </div>
         </div>

@@ -2,8 +2,7 @@
 import { toast } from "sonner";
 import { calculateMistakeScore, calculateScore } from "@/helpers/score";
 import { db } from "@/lib/firestore";
-import { doc, getDoc, updateDoc, onSnapshot, setDoc } from "firebase/firestore";
-
+import { doc, updateDoc, onSnapshot, setDoc } from "firebase/firestore";
 import { IMistakeMap, IPageData, IUser } from "@/types/user.types";
 
 // Convert Map to Object
@@ -34,18 +33,6 @@ function objectToMap(obj: any): Map<any, any> {
   return map;
 }
 
-// export async function getUser(userId: string) {
-//   const user = doc(db, "user", userId);
-//   const req = await getDoc(user);
-//   if (Object.keys(req.data()).length === 0)
-//     return { id: userId, allMistakes: new Map(), pageData: [] };
-//   const mappedData = objectToMap(req.data()?.allMistakes);
-//   const userData = {
-//     ...req.data(),
-//     allMistakes: mappedData,
-//   };
-//   return userData as unknown as IUser;
-// }
 export function subscribeToUser(
   userId: string,
   callback: (user: IUser) => void,
@@ -69,14 +56,6 @@ export function subscribeToUser(
   });
 
   return unsubscribe;
-}
-
-export async function updateUserMistakes(
-  userId: string,
-  newMistakes: IUser["allMistakes"],
-) {
-  const user = doc(db, "user", userId);
-  await updateDoc(user, { allMistakes: newMistakes });
 }
 
 // Function to create a new page
@@ -116,10 +95,8 @@ export async function updatePageData(
   userId: string,
   mistakeCount: number,
 ) {
-  let user = doc(db, "user", userId);
-
+  const user = doc(db, "user", userId);
   let newPage = createNewPage(pageNumber, mistakeCount);
-
   let newPageArray: IPageData[] = userData?.pageData || [];
   const hasPageNumberAlready = newPageArray.some(
     (page) => page.pageNumber == pageNumber,
@@ -134,11 +111,11 @@ export async function updatePageData(
   } else {
     newPageArray = [...newPageArray, newPage];
   }
-
   try {
     await updateDoc(user, { pageData: newPageArray });
   } catch (error) {
     console.log(error);
+    toast(`Error saving new revision`);
   } finally {
     toast(`New revision saved`);
   }

@@ -32,11 +32,6 @@ export default function PageView() {
         setAyaat(["This page does not exist"]);
         return;
       }
-      // if (!userData) {
-      //   const data = await getUser(authData?.uid);
-      //   setUserMistakes(data.allMistakes.get(pageNumber.toString()));
-      //   return;
-      // }
       setUserMistakes(userData.allMistakes.get(pageNumber.toString()));
     } catch (error) {
       console.error("Error getting page data");
