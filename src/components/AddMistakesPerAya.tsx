@@ -45,6 +45,7 @@ export default function AddMistakesPerAya({
 
     if (allMistakes.has(currentId)) {
       const deletedMistake = allMistakes.get(currentId);
+      // FIX: Notes seem to not get pulled from database
       toast(`Letter mistake fixed`, {
         description: `Deleted \n ${deletedMistake?.mistake} ${deletedMistake?.note ?? ""}`,
         action: {
@@ -143,6 +144,7 @@ export default function AddMistakesPerAya({
     if (newNoted) newNoted.note = value;
     allMistakes.delete(selectedId);
     allMistakes.set(selectedId, newNoted);
+    setAllMistakes(allMistakes);
   }
 
   const getLetterId = (wordIndex: number, letterIndex: number) => {

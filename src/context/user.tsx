@@ -2,7 +2,7 @@
 import { toast } from "sonner";
 import { calculateMistakeScore, calculateScore } from "@/helpers/score";
 import { db } from "@/lib/firestore";
-import { doc, getDoc, updateDoc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, updateDoc, onSnapshot, setDoc } from "firebase/firestore";
 
 import { IMistakeMap, IPageData, IUser } from "@/types/user.types";
 
@@ -34,18 +34,18 @@ function objectToMap(obj: any): Map<any, any> {
   return map;
 }
 
-export async function getUser(userId: string) {
-  const user = doc(db, "user", userId);
-  const req = await getDoc(user);
-  if (Object.keys(req.data()).length === 0)
-    return { id: userId, allMistakes: new Map(), pageData: [] };
-  const mappedData = objectToMap(req.data()?.allMistakes);
-  const userData = {
-    ...req.data(),
-    allMistakes: mappedData,
-  };
-  return userData as unknown as IUser;
-}
+// export async function getUser(userId: string) {
+//   const user = doc(db, "user", userId);
+//   const req = await getDoc(user);
+//   if (Object.keys(req.data()).length === 0)
+//     return { id: userId, allMistakes: new Map(), pageData: [] };
+//   const mappedData = objectToMap(req.data()?.allMistakes);
+//   const userData = {
+//     ...req.data(),
+//     allMistakes: mappedData,
+//   };
+//   return userData as unknown as IUser;
+// }
 export function subscribeToUser(
   userId: string,
   callback: (user: IUser) => void,
@@ -55,19 +55,16 @@ export function subscribeToUser(
   const unsubscribe = onSnapshot(user, (docSnapshot) => {
     if (docSnapshot.exists()) {
       const data = docSnapshot.data();
-      console.log("reloading data");
-
       if (data) {
-        const mappedData = objectToMap(data.allMistakes);
         const userData = {
           ...data,
-          allMistakes: mappedData,
+          allMistakes: objectToMap(data.allMistakes),
         };
         callback(userData as unknown as IUser);
       }
     } else {
-      // TODO: create user in db and push to db
-      callback({ id: userId, allMistakes: new Map(), pageData: [] });
+      setDoc(user, { allMistakes: [], pageData: [] });
+      callback({ allMistakes: new Map(), pageData: [] });
     }
   });
 
@@ -119,7 +116,8 @@ export async function updatePageData(
   userId: string,
   mistakeCount: number,
 ) {
-  const user = doc(db, "user", userId);
+  let user = doc(db, "user", userId);
+
   let newPage = createNewPage(pageNumber, mistakeCount);
 
   let newPageArray: IPageData[] = userData?.pageData || [];

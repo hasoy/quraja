@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useEffect, useState } from "react";
 import { authListener } from "@/lib/auth";
-import { LoginForm } from "@/components/LoginPage";
+import LandingPage from "@/components/LandingPage";
 
 export const AuthContext = createContext({} as { uid: string });
 export function AuthProvider({ children }: any) {
@@ -13,7 +13,9 @@ export function AuthProvider({ children }: any) {
     });
   }, []);
 
-  if (!authData) return <LoginForm></LoginForm>;
+  if (!authData) {
+    return <LandingPage></LandingPage>;
+  }
 
   return (
     <AuthContext.Provider value={authData}>{children}</AuthContext.Provider>

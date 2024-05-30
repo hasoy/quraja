@@ -8,11 +8,9 @@ import LoadingElement from "@/components/LoadingElement";
 import { IMistakeMap } from "@/types/user.types";
 import { UserContext } from "@/context/UserProvider";
 import { useParams } from "next/navigation";
-import { getUser } from "@/context/user";
 import { AuthContext } from "@/context/AuthProvider";
 export default function PageView() {
   const userData = useContext(UserContext);
-  const authData = useContext(AuthContext);
   const [ayaat, setAyaat] = useState([""]);
   const [loading, setLoading] = useState(false);
   const [userMistakes, setUserMistakes] = useState<IMistakeMap>();
@@ -34,11 +32,11 @@ export default function PageView() {
         setAyaat(["This page does not exist"]);
         return;
       }
-      if (!userData) {
-        const data = await getUser(authData?.uid);
-        setUserMistakes(data.allMistakes.get(pageNumber.toString()));
-        return;
-      }
+      // if (!userData) {
+      //   const data = await getUser(authData?.uid);
+      //   setUserMistakes(data.allMistakes.get(pageNumber.toString()));
+      //   return;
+      // }
       setUserMistakes(userData.allMistakes.get(pageNumber.toString()));
     } catch (error) {
       console.error("Error getting page data");
