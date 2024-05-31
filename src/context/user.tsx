@@ -39,6 +39,7 @@ export function subscribeToUser(
   userId: string,
   callback: (user: IUser) => void,
 ) {
+  if (!userId) return;
   const user = doc(db, "user", userId);
 
   const unsubscribe = onSnapshot(user, (docSnapshot) => {
