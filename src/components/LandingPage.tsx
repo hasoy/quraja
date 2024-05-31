@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import Typography from "./Typography";
 import FaqHome from "@/components/FaqHome";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/images/hero.jpeg";
@@ -14,15 +13,13 @@ export default function LandingPage() {
     <main className="container mx-auto flex min-h-[100dvh] w-full flex-1 flex-col space-y-10">
       <section className="mx-auto grid max-w-[1300px] gap-4 px-4 py-20 sm:px-6 md:grid-cols-2 md:gap-16 md:px-10">
         <div>
-          <Typography tag="h1">
-            Your Quran Revision Tracker And Coach
-          </Typography>
-          <Typography tag="p">
+          <h1>Your Quran Revision Tracker And Coach</h1>
+          <p>
             Streamline your hifdh, mark mistakes, and know what to revise next.
             Finally start revising with a clear overview. Focus more on
             memorizing ayat than memorizing your mistakes and revision schedule.
-          </Typography>
-          <div className="mt-20 space-x-4">
+          </p>
+          <div className="mt-4 space-x-4 md:mt-20">
             <Button onClick={() => loginRef?.current?.scrollIntoView()}>
               Get Started
             </Button>
@@ -51,7 +48,7 @@ export default function LandingPage() {
             <div className="grid gap-1">
               <div className="flex items-center gap-2 rounded-md bg-gray-100 p-4 dark:bg-gray-800">
                 <BookIcon />
-                <Typography tag={"h4"}>Score per page</Typography>
+                <h4>Score per page</h4>
               </div>
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 Keep track and get a score per page to know what to revise next.
@@ -60,7 +57,7 @@ export default function LandingPage() {
             <div className="grid gap-1">
               <div className="flex items-center gap-2 rounded-md bg-gray-100 p-4 dark:bg-gray-800">
                 <PencilIcon />
-                <Typography tag={"h4"}>Mark Mistakes</Typography>
+                <h4>Mark Mistakes</h4>
               </div>
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 Identify and mark your mistakes as you revise.
@@ -69,7 +66,7 @@ export default function LandingPage() {
             <div className="grid gap-1">
               <div className="flex items-center gap-2 rounded-md bg-gray-100 p-4 dark:bg-gray-800">
                 <CalendarIcon />
-                <Typography tag={"h4"}>Keep track of revision</Typography>
+                <h4>Keep track of revision</h4>
               </div>
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 Track when you last revised and how many times.
@@ -79,24 +76,20 @@ export default function LandingPage() {
         </div>
       </section>
       <section className="container mx-auto w-full space-y-6 px-4 py-12 text-center md:px-6 md:py-24 lg:py-32">
-        <Typography tag="h2">
-          Everyone knows memorizing is easy, but revising is hard.
-        </Typography>
-        <Typography tag="p">
+        <h2>Everyone knows memorizing is easy, but revising is hard.</h2>
+        <p>
           It is time to change that. With Quraja, you can focus on memorizing.
-        </Typography>
-        <Typography tag="h3">
-          As the Hadith from Sahih Muslim states:
-        </Typography>
-        <Typography tag="blockquote" className="whitespace-pre border-none">
+        </p>
+        <h3>As the Hadith from Sahih Muslim states:</h3>
+        <blockquote className="cursor-pointer p-1  hover:bg-purple-700 hover:text-white hover:underline lg:mx-60">
           <a
             href="https://sunnah.com/muslim:791"
-            className="cursor-pointer p-1 hover:bg-purple-600 hover:text-white hover:underline"
+            className="p-1"
             target="_blank"
           >
             {`Keep refreshing your knowledge of the Quran, for I swear by Him in\nWhose Hand is the life of Muhammad that it is more liable to escape\nthan camels which are hobbled.`}
           </a>
-        </Typography>
+        </blockquote>
         <br />
       </section>
       <section ref={loginRef} className="w-full py-12 md:py-24 lg:py-32">

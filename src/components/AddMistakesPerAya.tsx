@@ -173,6 +173,7 @@ export default function AddMistakesPerAya({
           onClick={(e: unknown) =>
             handleWordClicked(e, `${pageAndAyaNumber}-${wordIndex}`, word)
           }
+          // TODO: add on hover for phone users to also ctrl click a work and add mistake
           id={`${pageAndAyaNumber}-${wordIndex}`}
           className={`${getHighlight(`${pageAndAyaNumber}-${wordIndex}`)}  font-sans leading-relaxed`}
           title={

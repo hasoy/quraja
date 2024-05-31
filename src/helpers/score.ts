@@ -53,5 +53,5 @@ export const calculateScore = (
   tempScore += calculateRevisionScore(revisions);
   tempScore += calculateMistakeScore(mistakes);
   tempScore += calculateTimeScore(date);
-  return tempScore;
+  return tempScore * 10;
 };

@@ -5,7 +5,7 @@ export const Navbar = () => {
   const links = [
     { link: "/", label: "Home" },
     // { link: "/quran", label: "Quran" },
-    { link: "/pages", label: "Page Overview" },
+    { link: "/pages", label: "Pages" },
     { link: "/profile", label: "Profile" },
     // { link: "revise", label: "Revise" },
     // { link: "history", label: "History" },
@@ -13,14 +13,16 @@ export const Navbar = () => {
     // { link: "contact", label: "Contact" },
   ];
   return (
-    <ul className="m-4 flex gap-8 py-4 ">
-      {links.map((link) => (
-        <Link href={link.link} key={link.label}>
-          <li className="rounded-lg bg-black px-4 py-2 text-white hover:bg-slate-600">
-            {link.label}
-          </li>
-        </Link>
-      ))}
-    </ul>
+    <nav className="sticky top-0 z-50 bg-slate-200 opacity-75 backdrop-blur-sm">
+      <ul className=" m-4 my-4 flex justify-center gap-8 rounded-lg shadow-lg shadow-blue-50">
+        {links.map((link) => (
+          <Link href={link.link} key={link.label}>
+            <li className="mx-4 my-2 rounded-lg p-2 font-bold hover:bg-blue-300">
+              {link.label}
+            </li>
+          </Link>
+        ))}
+      </ul>
+    </nav>
   );
 };
