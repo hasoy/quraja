@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import DropdownMenus from "./DropdownMenus";
 import {
   ayaMistakesOptions,
@@ -7,7 +7,7 @@ import {
   wordMistakesOptions,
 } from "@/constants/dropdown-values";
 import { toast } from "sonner";
-import { IMistakeMap } from "@/types/ayat.types";
+import { IMistake, IMistakeMap } from "@/types/ayat.types";
 
 interface AddMistakesProps {
   text: string;
@@ -36,7 +36,8 @@ export default function AddMistakesPerAya({
     setAllMistakes(newMap);
   }
 
-  function HandleLetterClicked(e: MouseEvent) {
+  function HandleLetterClicked(event: unknown) {
+    const e: MouseEvent = event as MouseEvent;
     if (!e.target) return;
     const ctrlPressed = e.ctrlKey;
     if (ctrlPressed) return;
@@ -45,6 +46,7 @@ export default function AddMistakesPerAya({
 
     if (allMistakes.has(currentId)) {
       const deletedMistake = allMistakes.get(currentId);
+      if (!deletedMistake) return;
       // FIX: Notes seem to not get pulled from database
       toast(`Letter mistake fixed`, {
         description: `Deleted \n ${deletedMistake?.mistake} ${deletedMistake?.note ?? ""}`,
@@ -69,16 +71,16 @@ export default function AddMistakesPerAya({
   }
 
   function handleWordClicked(
-    event: MouseEvent<HTMLSpanElement, MouseEvent>,
+    event: unknown,
     wordIndex: string,
     word: string,
   ): void {
-    const ctrlPressed = event.ctrlKey;
+    const ctrlPressed = (event as MouseEvent).ctrlKey;
     if (!ctrlPressed) return;
     const wordId = wordIndex.toString();
 
     if (allMistakes.has(wordId)) {
-      const wordMistake = allMistakes.get(wordId);
+      const wordMistake = allMistakes.get(wordId) as IMistake;
       toast(`Word mistake fixed`, {
         description: `Deleted \n ${wordMistake?.mistake} ${wordMistake?.note ?? ""}`,
         action: {
@@ -157,7 +159,8 @@ export default function AddMistakesPerAya({
       {text.split(" ").map((word, wordIndex) => (
         <span
           key={wordIndex}
-          onClick={(e) =>
+          /* tslint:disable-next-line */
+          onClick={(e: unknown) =>
             handleWordClicked(e, `${pageAndAyaNumber}-${wordIndex}`, word)
           }
           id={`${pageAndAyaNumber}-${wordIndex}`}

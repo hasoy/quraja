@@ -1031,5 +1031,4 @@ export const AYAT_PER_SURA: IAyatPerSura[] = [
   [6221, 4, 22, 1, "Ø§Ù„Ø¥Ø®Ù„Ø§Øµ", "Al-Ikhlaas", "Sincerity", "Meccan"],
   [6225, 5, 20, 1, "Ø§Ù„ÙÙ„Ù‚", "Al-Falaq", "The Dawn", "Meccan"],
   [6230, 6, 21, 1, "Ø§Ù„Ù†Ø§Ø³", "An-Naas", "Mankind", "Meccan"],
-  [6236, 1],
 ];

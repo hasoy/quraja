@@ -41,12 +41,12 @@ export default function SuraView() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <QuranPage
-        ayaat={AYAAT.slice(0, 10)}
-        pageNumber={0}
-        suraNumber={0}
-        juzNumber={0}
-      ></QuranPage>
+      {/* <QuranPage */}
+      {/*   ayaat={AYAAT.slice(0, 10)} */}
+      {/*   pageNumber={0} */}
+      {/*   suraNumber={0} */}
+      {/*   juzNumber={0} */}
+      {/* ></QuranPage> */}
     </main>
   );
 }

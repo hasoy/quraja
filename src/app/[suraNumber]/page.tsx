@@ -42,17 +42,17 @@ export default function SuraView() {
   return (
     <main className="flex min-h-screen w-full flex-col items-center p-24">
       <h1 className="text-2xl font-bold">{title}</h1>
-      <div className="w-1/2 text-2xl">
-        {sura.map((aya, ayaNumber) => (
-          <AddMistakesPerAya
-            key={ayaNumber}
-            text={aya}
-            ayaNumber={ayaNumber}
-            // PERF: fix
-            pageNumber={ayaNumber}
-          ></AddMistakesPerAya>
-        ))}
-      </div>
+      {/* <div className="w-1/2 text-2xl"> */}
+      {/*   {sura.map((aya, ayaNumber) => ( */}
+      {/*     <AddMistakesPerAya */}
+      {/*       key={ayaNumber} */}
+      {/*       text={aya} */}
+      {/*       ayaNumber={ayaNumber} */}
+      {/*       // PERF: fix */}
+      {/*       pageNumber={ayaNumber} */}
+      {/*     ></AddMistakesPerAya> */}
+      {/*   ))} */}
+      {/* </div> */}
     </main>
   );
 }

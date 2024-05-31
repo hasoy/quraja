@@ -18,6 +18,7 @@ export function UserProvider({ children }: any) {
       setUserData(user);
     });
   };
+  if (!userData) return <div>Loading...</div>;
   return (
     <UserContext.Provider value={userData}>{children}</UserContext.Provider>
   );

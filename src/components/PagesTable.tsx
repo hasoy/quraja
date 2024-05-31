@@ -93,7 +93,7 @@ const PageTable = () => {
           <TableBody>
             {placeholderArray?.map((_, index) =>
               userData?.pageData?.some((page) => page.pageNumber === index + 1)
-                ? filledPage(getPage(index + 1))
+                ? filledPage(getPage(index + 1) as IPageData)
                 : emptyPage(index + 1),
             )}
           </TableBody>

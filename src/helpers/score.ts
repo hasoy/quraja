@@ -25,7 +25,7 @@ export const calculateMistakeScore = (mistakeCount: number) => {
 
 export const calculateTimeScore = (lastRevised: string) => {
   const label = getDaysLabel(getDaysFromToday(lastRevised));
-  const score = new Map([
+  const score = new Map<string, number>([
     ["Today", 4],
     ["This week", 4],
     ["These two weeks", 3],
@@ -34,7 +34,8 @@ export const calculateTimeScore = (lastRevised: string) => {
     ["This year", 0.5],
     ["More than a year", 0],
   ]);
-  return score.get(label);
+  if (score.has(label)) return score.get(label) as number;
+  return 0;
 };
 
 export const calculateRevisionScore = (totalRevisions: number) => {

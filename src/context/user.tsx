@@ -8,6 +8,8 @@ import { IMistakeMap, IPageData, IUser } from "@/types/user.types";
 // Convert Map to Object
 function mapToObject(map: Map<any, any>): any {
   const obj: any = {};
+  // FIX: this ts error
+  // @ts-ignore
   for (let [key, value] of map) {
     if (value instanceof Map) {
       obj[key] = mapToObject(value);

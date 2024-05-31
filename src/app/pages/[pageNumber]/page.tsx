@@ -54,7 +54,7 @@ export default function PageView() {
           pageNumber={Number(pageNumber)}
           suraNumber={0}
           juzNumber={0}
-          allMistakes={userMistakes}
+          allMistakes={userMistakes ?? new Map()}
         ></QuranPage>
       )}
     </>

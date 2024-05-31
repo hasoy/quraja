@@ -15,8 +15,7 @@ export const signUpUser = async (email: string, password: string) => {
     if (res) return true;
   } catch (error) {
     // TODO: add error handling
-    console.log(error.code);
-    console.log(error.message);
+    console.log(error);
     return false;
   }
 };
@@ -30,8 +29,8 @@ export const loginWithGoogle = async () => {
   signInWithPopup(auth, provider)
     .then((result) => {
       // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
+      // const credential = GoogleAuthProvider.credentialFromResult(result);
+      // const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
       console.log(user);
@@ -66,10 +65,9 @@ export const loginUser = async (email: string, password: string) => {
     }
     // TODO: check if this works correctly
     return true;
-  } catch (error) {
+  } catch (error: unknown) {
     // TODO: add error handling
-    console.log(error.code);
-    console.log(error.message);
+    console.log(error);
     return false;
   }
 };
@@ -79,7 +77,7 @@ export const authListener = (callback: (user: { uid: string }) => void) => {
     if (user) {
       callback(user);
     } else {
-      callback(null);
+      callback({ uid: "" });
     }
   });
 };

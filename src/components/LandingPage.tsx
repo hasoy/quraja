@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Typography from "./Typography";
 import FaqHome from "@/components/FaqHome";
@@ -9,7 +8,8 @@ import { LoginForm } from "./LoginPage";
 import { useRef } from "react";
 
 export default function LandingPage() {
-  const loginRef = useRef(null);
+  const loginRef = useRef<null | HTMLDivElement>(null);
+
   return (
     <main className="container mx-auto flex min-h-[100dvh] w-full flex-1 flex-col space-y-10">
       <section className="mx-auto grid max-w-[1300px] gap-4 px-4 py-20 sm:px-6 md:grid-cols-2 md:gap-16 md:px-10">
@@ -50,7 +50,7 @@ export default function LandingPage() {
             {/* TODO: Make these cards with images of what the app does per block */}
             <div className="grid gap-1">
               <div className="flex items-center gap-2 rounded-md bg-gray-100 p-4 dark:bg-gray-800">
-                <BookIcon className="h-6 w-6" />
+                <BookIcon />
                 <Typography tag={"h4"}>Score per page</Typography>
               </div>
               <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -59,7 +59,7 @@ export default function LandingPage() {
             </div>
             <div className="grid gap-1">
               <div className="flex items-center gap-2 rounded-md bg-gray-100 p-4 dark:bg-gray-800">
-                <PencilIcon className="h-6 w-6" />
+                <PencilIcon />
                 <Typography tag={"h4"}>Mark Mistakes</Typography>
               </div>
               <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -68,7 +68,7 @@ export default function LandingPage() {
             </div>
             <div className="grid gap-1">
               <div className="flex items-center gap-2 rounded-md bg-gray-100 p-4 dark:bg-gray-800">
-                <CalendarIcon className="h-6 w-6" />
+                <CalendarIcon />
                 <Typography tag={"h4"}>Keep track of revision</Typography>
               </div>
               <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -112,10 +112,10 @@ export default function LandingPage() {
   );
 }
 
-function BookIcon(props) {
+function BookIcon() {
   return (
     <svg
-      {...props}
+      className="h-6 w-6"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -131,10 +131,10 @@ function BookIcon(props) {
   );
 }
 
-function CalendarIcon(props) {
+function CalendarIcon() {
   return (
     <svg
-      {...props}
+      className="h-6 w-6"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -153,50 +153,10 @@ function CalendarIcon(props) {
   );
 }
 
-function CheckIcon(props) {
+function PencilIcon() {
   return (
     <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M20 6 9 17l-5-5" />
-    </svg>
-  );
-}
-
-function LogInIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-      <polyline points="10 17 15 12 10 7" />
-      <line x1="15" x2="3" y1="12" y2="12" />
-    </svg>
-  );
-}
-
-function PencilIcon(props) {
-  return (
-    <svg
-      {...props}
+      className="h-6 w-6"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -209,67 +169,6 @@ function PencilIcon(props) {
     >
       <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
       <path d="m15 5 4 4" />
-    </svg>
-  );
-}
-
-function PowerIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 2v10" />
-      <path d="M18.4 6.6a9 9 0 1 1-12.77.04" />
-    </svg>
-  );
-}
-
-function TimerIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="10" x2="14" y1="2" y2="2" />
-      <line x1="12" x2="15" y1="14" y2="11" />
-      <circle cx="12" cy="14" r="8" />
-    </svg>
-  );
-}
-
-function XIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
     </svg>
   );
 }
