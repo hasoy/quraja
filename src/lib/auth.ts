@@ -77,7 +77,8 @@ export const authListener = (callback: (user: { uid: string }) => void) => {
     if (user) {
       callback(user);
     } else {
-      callback({ uid: "" });
+      // @ts-ignore
+      callback(null);
     }
   });
 };
