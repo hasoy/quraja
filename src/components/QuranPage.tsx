@@ -38,9 +38,12 @@ export default function QuranPage(props: QuranPageProps) {
 
   return (
     <div className="mx-auto flex h-screen flex-col gap-4 p-4 text-3xl md:w-1/2 lg:w-1/3">
-      <Button className="w-min self-end" onClick={addRevision}>
-        Save revision +1
-      </Button>
+      <div className="flex justify-between">
+        <Button variant="outline">Ctrl + click to add word mistake</Button>
+        <Button className="w-min self-end" onClick={addRevision}>
+          Save revision +1
+        </Button>
+      </div>
       <ul className="my-10 list-none ">
         {props.ayaat.map((aya, index) => (
           <AddMistakesPerAya
