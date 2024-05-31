@@ -39,7 +39,14 @@ export default function QuranPage(props: QuranPageProps) {
   return (
     <div className="mx-auto flex h-screen flex-col gap-4 p-4 text-3xl md:w-1/2 lg:w-1/3">
       <div className="flex justify-between">
-        <Button variant="outline">Ctrl + click to add word mistake</Button>
+        <div className="grid gap-2">
+          <h3 className="text-lg font-medium">How to mark mistakes:</h3>
+          <ol className="list-decimal space-y-1 pl-4 text-sm text-gray-500 dark:text-gray-400">
+            <li>click on a letter to mark</li>
+            <li>ctrl + click on a word to mark</li>
+            <li>click on an aya to mark</li>
+          </ol>
+        </div>
         <Button className="w-min self-end" onClick={addRevision}>
           Save revision +1
         </Button>

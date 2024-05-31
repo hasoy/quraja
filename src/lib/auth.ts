@@ -32,8 +32,8 @@ export const loginWithGoogle = async () => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       // const token = credential.accessToken;
       // The signed-in user info.
-      const user = result.user;
-      console.log(user);
+      // const user = result.user;
+      // console.log(user);
       return true;
       // IdP data available using getAdditionalUserInfo(result)
       // ...

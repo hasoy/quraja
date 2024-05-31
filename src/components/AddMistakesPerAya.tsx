@@ -155,7 +155,17 @@ export default function AddMistakesPerAya({
 
   // TODO: make styling better so the ayaat get closer to eachother instead of under eachother
   return (
-    <span className={allMistakes?.has(pageAndAyaNumber) ? "bg-yellow-100" : ""}>
+    <span
+      className={allMistakes?.has(pageAndAyaNumber) ? "bg-yellow-100" : ""}
+      // FIX: the hover does not work yet
+      title={
+        allMistakes?.get(pageAndAyaNumber)?.note
+          ? `${
+              allMistakes?.get(pageAndAyaNumber)?.note
+            } \nClick to remove mistake`
+          : undefined
+      }
+    >
       {text.split(" ").map((word, wordIndex) => (
         <span
           key={wordIndex}
