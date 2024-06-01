@@ -82,6 +82,7 @@ export default function AddMistakesPerAya({
 
     if (pageMistakes.has(wordId)) {
       const wordMistake = pageMistakes.get(wordId);
+      if (!wordMistake) return;
       toast(`Word mistake fixed`, {
         description: `Deleted \n ${wordMistake?.word} ${wordMistake?.note ?? ""}`,
         action: {

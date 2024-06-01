@@ -76,6 +76,7 @@ export default function QuranPage(props: QuranPageProps) {
         <Button
           className="w-min self-end"
           onClick={() => {
+            addRevision();
             goToPage(props.pageNumber - 1);
           }}
           variant="link"
@@ -89,6 +90,7 @@ export default function QuranPage(props: QuranPageProps) {
         <Button
           className="w-min self-end"
           onClick={() => {
+            addRevision();
             goToPage(props.pageNumber + 1);
           }}
           variant="link"

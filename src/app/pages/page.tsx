@@ -4,7 +4,11 @@ import { columns } from "@/components/PagesTableColums";
 import { UserContext } from "@/context/UserProvider";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
-import { InputOTP, InputOTPSlot } from "@/components/ui/input-otp";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 const PageOverview: React.FC = () => {
   const userData = useContext(UserContext);
   const router = useRouter();
@@ -19,17 +23,18 @@ const PageOverview: React.FC = () => {
       {/* TODO: make it cleaner */}
       <InputOTP
         maxLength={3}
-        className="w-fit"
         id="input"
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            router.push(`/pages/${e.target.value}`);
+            router.push(`/pages/${(e.target as HTMLInputElement).value}`);
           }
         }}
       >
-        <InputOTPSlot index={0} />
-        <InputOTPSlot index={1} />
-        <InputOTPSlot index={2} />
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+        </InputOTPGroup>
       </InputOTP>
 
       <PageTable data={userData.pageData} columns={columns} />
