@@ -1,5 +1,4 @@
 "use client";
-import React, { useState } from "react";
 import {
   TableHead,
   TableRow,
@@ -10,13 +9,6 @@ import {
 } from "@/components/ui/table";
 import { useRouter } from "next/navigation";
 import {
-  calculateScore,
-  getDaysFromToday,
-  getDaysLabel,
-} from "@/helpers/score";
-import { Switch } from "@/components/ui/switch";
-import { IPageData } from "@/types/user.types";
-import {
   ColumnDef,
   SortingState,
   flexRender,
@@ -24,6 +16,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useState } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -35,8 +28,7 @@ export function PageTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
-  // const [hideEmptyPages, setHideEmptyPages] = useState(false);
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   // TODO: add sorting to table
   function navigatePage(pageNumber: number) {
     router.push(`/pages/${pageNumber}`);
@@ -85,30 +77,11 @@ export function PageTable<TData, TValue>({
                 }
                 className={`bg-slate-50 hover:cursor-pointer hover:text-white ${row.getValue("totalRevisions") ? "bg-blue-200" : ""}`}
               >
-                {row.getValue("totalRevisions") ? (
-                  row
-                    .getVisibleCells()
-                    .map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))
-                ) : (
-                  <>
-                    <TableCell key={row.getValue("pageNumber")}>
-                      {row.getValue("pageNumber")}
-                    </TableCell>
-                    <TableCell key={row.getValue("pageNumber")}>
-                      Start revision
-                    </TableCell>
-                    <TableCell key={row.getValue("pageNumber")}></TableCell>
-                    <TableCell key={row.getValue("pageNumber")}></TableCell>
-                    <TableCell key={row.getValue("pageNumber")}></TableCell>
-                  </>
-                )}
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
               </TableRow>
             ))
           ) : (

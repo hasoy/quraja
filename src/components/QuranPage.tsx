@@ -6,6 +6,7 @@ import { saveNewPageMistakes, updatePageData } from "@/context/user";
 import { AuthContext } from "@/context/AuthProvider";
 import { UserContext } from "@/context/UserProvider";
 import { IPageMistakeMap } from "@/types/user.types";
+import { useRouter } from "next/navigation";
 interface QuranPageProps {
   ayaat: string[];
   pageNumber: number;
@@ -17,6 +18,7 @@ interface QuranPageProps {
 export default function QuranPage(props: QuranPageProps) {
   const authData = useContext(AuthContext);
   const userData = useContext(UserContext);
+  const router = useRouter();
   function addRevision(): void {
     updatePageData(
       userData,
@@ -35,6 +37,11 @@ export default function QuranPage(props: QuranPageProps) {
   const [localPageMistakes, setPageLocalMistakes] = useState(
     props.pageMistakes ?? new Map(),
   );
+
+  function goToPage(page: number) {
+    // TODO: add save revision if any changes were made
+    router.push(`/pages/${page}`);
+  }
 
   return (
     <div className="mx-auto flex h-screen flex-col gap-4 p-4 text-3xl md:w-1/2 lg:w-1/3">
@@ -64,10 +71,31 @@ export default function QuranPage(props: QuranPageProps) {
         ))}
 
         {/* TODO: make a cleaner UI for this */}
+      </ul>
+      <div className="mb-4 flex justify-between">
+        <Button
+          className="w-min self-end"
+          onClick={() => {
+            goToPage(props.pageNumber - 1);
+          }}
+          variant="link"
+        >
+          Go to {props.pageNumber - 1}
+        </Button>
+
         <p className="text-md text-center font-bold text-slate-600 underline">
           Page {props.pageNumber}
         </p>
-      </ul>
+        <Button
+          className="w-min self-end"
+          onClick={() => {
+            goToPage(props.pageNumber + 1);
+          }}
+          variant="link"
+        >
+          Go to {props.pageNumber + 1}
+        </Button>
+      </div>
     </div>
   );
 }
