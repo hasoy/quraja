@@ -32,14 +32,15 @@ export default function QuranPage(props: QuranPageProps) {
       props.pageNumber.toString(),
       userData,
     );
+    setFormDirty(false);
   }
-  // FIX: if all mistakes is empty, test if the ternary works
   const [localPageMistakes, setPageLocalMistakes] = useState(
     props.pageMistakes ?? new Map(),
   );
+  const [formDirty, setFormDirty] = useState(false);
+  console.log(formDirty);
 
   function goToPage(page: number) {
-    // TODO: add save revision if any changes were made
     router.push(`/pages/${page}`);
   }
 
@@ -67,6 +68,7 @@ export default function QuranPage(props: QuranPageProps) {
             pageNumber={props.pageNumber}
             pageMistakes={localPageMistakes}
             setAllMistakes={setPageLocalMistakes}
+            setFormDirty={setFormDirty}
           ></AddMistakesPerAya>
         ))}
 
@@ -76,7 +78,7 @@ export default function QuranPage(props: QuranPageProps) {
         <Button
           className="w-min self-end"
           onClick={() => {
-            addRevision();
+            if (formDirty) addRevision();
             goToPage(props.pageNumber - 1);
           }}
           variant="link"
@@ -90,7 +92,7 @@ export default function QuranPage(props: QuranPageProps) {
         <Button
           className="w-min self-end"
           onClick={() => {
-            addRevision();
+            if (formDirty) addRevision();
             goToPage(props.pageNumber + 1);
           }}
           variant="link"

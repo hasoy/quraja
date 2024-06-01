@@ -16,6 +16,7 @@ interface AddMistakesProps {
   hasMistake?: "similar" | "forgot" | "";
   pageMistakes: IPageMistakeMap;
   setAllMistakes: (mistakes: IPageMistakeMap) => void;
+  setFormDirty: (dirty: boolean) => void;
 }
 export default function AddMistakesPerAya({
   text,
@@ -23,6 +24,7 @@ export default function AddMistakesPerAya({
   ayaNumber,
   pageMistakes,
   setAllMistakes,
+  setFormDirty,
 }: AddMistakesProps) {
   const [openLetterMenu, setOpenLetterMenu] = useState(false);
   const [openWordMenu, setOpenWordMenu] = useState(false);
@@ -43,7 +45,7 @@ export default function AddMistakesPerAya({
     if (ctrlPressed) return;
     const currentLetterId = (e.target as HTMLElement).id;
     const target = e.target as HTMLElement;
-
+    setFormDirty(true);
     if (pageMistakes.has(currentLetterId)) {
       const deletedMistake = pageMistakes.get(currentLetterId);
       console.log(deletedMistake);
@@ -65,7 +67,6 @@ export default function AddMistakesPerAya({
     }
     setSelectedId(currentLetterId);
     // TODO: make an async await on the open aya menu and only then add the mistake
-
     setOpenLetterMenu(true);
     pageMistakes.set(currentLetterId, { word: target.innerText });
     setNewMap(pageMistakes);
@@ -79,7 +80,7 @@ export default function AddMistakesPerAya({
     const ctrlPressed = (event as MouseEvent).ctrlKey;
     if (!ctrlPressed) return;
     const wordId = wordIndex.toString();
-
+    setFormDirty(true);
     if (pageMistakes.has(wordId)) {
       const wordMistake = pageMistakes.get(wordId);
       if (!wordMistake) return;
@@ -107,6 +108,7 @@ export default function AddMistakesPerAya({
   function handleAyaClicked(pageAndAya: string, mistake: string): void {
     if (pageMistakes.has(pageAndAya)) {
       const ayaMistake = pageMistakes.get(pageAndAya);
+      setFormDirty(true);
       toast(`Aya mistake fixed`, {
         description: `Deleted \n ${ayaMistake?.word} ${ayaMistake?.note ?? ""}`,
         action: {
@@ -121,6 +123,7 @@ export default function AddMistakesPerAya({
       setNewMap(pageMistakes);
       return;
     }
+    setFormDirty(true);
     setOpenAyaMenu(true);
     // TODO: make an async await on the open aya menu and only then add the mistake
     pageMistakes.set(pageAndAya, { word: mistake });
@@ -151,6 +154,7 @@ export default function AddMistakesPerAya({
     pageMistakes.delete(selectedId);
     pageMistakes.set(selectedId, newNote);
     setAllMistakes(pageMistakes);
+    setFormDirty(true);
   }
 
   const getLetterId = (wordIndex: number, letterIndex: number) => {
