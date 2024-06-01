@@ -1,5 +1,5 @@
 "use client";
-import { MouseEventHandler, useState } from "react";
+import { useState } from "react";
 import DropdownMenus from "./DropdownMenus";
 import {
   ayaMistakesOptions,
@@ -7,21 +7,21 @@ import {
   wordMistakesOptions,
 } from "@/constants/dropdown-values";
 import { toast } from "sonner";
-import { IMistake, IMistakeMap } from "@/types/ayat.types";
+import { IPageMistakeMap } from "@/types/user.types";
 
 interface AddMistakesProps {
   text: string;
   pageNumber: number;
   ayaNumber: number;
   hasMistake?: "similar" | "forgot" | "";
-  allMistakes: IMistakeMap;
-  setAllMistakes: (mistakes: IMistakeMap) => void;
+  pageMistakes: IPageMistakeMap;
+  setAllMistakes: (mistakes: IPageMistakeMap) => void;
 }
 export default function AddMistakesPerAya({
   text,
   pageNumber,
   ayaNumber,
-  allMistakes,
+  pageMistakes,
   setAllMistakes,
 }: AddMistakesProps) {
   const [openLetterMenu, setOpenLetterMenu] = useState(false);
@@ -31,7 +31,7 @@ export default function AddMistakesPerAya({
   const pageAndAyaNumber = `${pageNumber}-${ayaNumber}`;
   // TODO: add ability to change a mistake
 
-  function setNewMap(oldMap: Map<string, { mistake: string; note?: string }>) {
+  function setNewMap(oldMap: IPageMistakeMap) {
     const newMap = new Map(oldMap);
     setAllMistakes(newMap);
   }
@@ -41,33 +41,34 @@ export default function AddMistakesPerAya({
     if (!e.target) return;
     const ctrlPressed = e.ctrlKey;
     if (ctrlPressed) return;
-    const currentId = (e.target as HTMLElement).id;
+    const currentLetterId = (e.target as HTMLElement).id;
     const target = e.target as HTMLElement;
 
-    if (allMistakes.has(currentId)) {
-      const deletedMistake = allMistakes.get(currentId);
+    if (pageMistakes.has(currentLetterId)) {
+      const deletedMistake = pageMistakes.get(currentLetterId);
+      console.log(deletedMistake);
       if (!deletedMistake) return;
       // FIX: Notes seem to not get pulled from database
       toast(`Letter mistake fixed`, {
-        description: `Deleted \n ${deletedMistake?.mistake} ${deletedMistake?.note ?? ""}`,
+        description: `Deleted \n ${deletedMistake?.word} ${deletedMistake?.note ?? ""}`,
         action: {
           label: "Undo",
           onClick: () => {
-            allMistakes.set(currentId, deletedMistake);
-            setNewMap(allMistakes);
+            pageMistakes.set(currentLetterId, deletedMistake);
+            setNewMap(pageMistakes);
           },
         },
       });
-      allMistakes.delete(currentId);
-      setNewMap(allMistakes);
+      pageMistakes.delete(currentLetterId);
+      setNewMap(pageMistakes);
       return;
     }
-    setSelectedId(currentId);
+    setSelectedId(currentLetterId);
     // TODO: make an async await on the open aya menu and only then add the mistake
 
     setOpenLetterMenu(true);
-    allMistakes.set(currentId, { mistake: target.innerText });
-    setNewMap(allMistakes);
+    pageMistakes.set(currentLetterId, { word: target.innerText });
+    setNewMap(pageMistakes);
   }
 
   function handleWordClicked(
@@ -79,74 +80,76 @@ export default function AddMistakesPerAya({
     if (!ctrlPressed) return;
     const wordId = wordIndex.toString();
 
-    if (allMistakes.has(wordId)) {
-      const wordMistake = allMistakes.get(wordId) as IMistake;
+    if (pageMistakes.has(wordId)) {
+      const wordMistake = pageMistakes.get(wordId);
       toast(`Word mistake fixed`, {
-        description: `Deleted \n ${wordMistake?.mistake} ${wordMistake?.note ?? ""}`,
+        description: `Deleted \n ${wordMistake?.word} ${wordMistake?.note ?? ""}`,
         action: {
           label: "Undo",
           onClick: () => {
-            allMistakes.set(wordId, wordMistake);
-            setNewMap(allMistakes);
+            pageMistakes.set(wordId, wordMistake);
+            setNewMap(pageMistakes);
           },
         },
       });
-      allMistakes.delete(wordId);
-      setNewMap(allMistakes);
+      pageMistakes.delete(wordId);
+      setNewMap(pageMistakes);
       return;
     }
     setSelectedId(wordId);
     setOpenWordMenu(true);
     // TODO: make an async await on the open aya menu and only then add the mistake
-    allMistakes.set(wordId, { mistake: word });
-    setNewMap(allMistakes);
+    pageMistakes.set(wordId, { word });
+    setNewMap(pageMistakes);
   }
 
   function handleAyaClicked(pageAndAya: string, mistake: string): void {
-    if (allMistakes.has(pageAndAya)) {
-      const ayaMistake = allMistakes.get(pageAndAya);
+    if (pageMistakes.has(pageAndAya)) {
+      const ayaMistake = pageMistakes.get(pageAndAya);
       toast(`Aya mistake fixed`, {
-        description: `Deleted \n ${ayaMistake?.mistake} ${ayaMistake?.note ?? ""}`,
+        description: `Deleted \n ${ayaMistake?.word} ${ayaMistake?.note ?? ""}`,
         action: {
           label: "Undo",
           onClick: () => {
-            allMistakes.set(pageAndAya, { mistake }), setNewMap(allMistakes);
+            pageMistakes.set(pageAndAya, { word: mistake }),
+              setNewMap(pageMistakes);
           },
         },
       });
-      allMistakes.delete(pageAndAya);
-      setNewMap(allMistakes);
+      pageMistakes.delete(pageAndAya);
+      setNewMap(pageMistakes);
       return;
     }
     setOpenAyaMenu(true);
     // TODO: make an async await on the open aya menu and only then add the mistake
-    allMistakes.set(pageAndAya, { mistake });
-    setNewMap(allMistakes);
+    pageMistakes.set(pageAndAya, { word: mistake });
+    setNewMap(pageMistakes);
   }
 
   function setAyaValue(pageAndAya: string, value: string) {
-    const ayaMistake = allMistakes.get(pageAndAya);
+    const ayaMistake = pageMistakes.get(pageAndAya);
     if (!ayaMistake) return;
-    allMistakes.delete(pageAndAya);
-    allMistakes.set(pageAndAya, { mistake: value });
-    setAllMistakes(allMistakes);
+    pageMistakes.delete(pageAndAya);
+    pageMistakes.set(pageAndAya, { word: ayaMistake.word, note: value });
+    setAllMistakes(pageMistakes);
   }
 
   const getHighlight = (id: string) => {
-    if (allMistakes?.has(id)) {
+    if (pageMistakes?.has(id)) {
       const dashes = id.split("-").length;
-      if (dashes === 4) return "bg-green-300";
-      if (dashes === 3) return "bg-red-300";
+      if (dashes === 3) return "bg-green-300";
+      if (dashes === 4) return "bg-red-300";
     }
   };
 
   function setNoteOnLetterOrWord(value: string) {
-    const newNoted = allMistakes.get(selectedId);
+    const newNoted = pageMistakes.get(selectedId);
     if (!newNoted) return;
-    if (newNoted) newNoted.note = value;
-    allMistakes.delete(selectedId);
-    allMistakes.set(selectedId, newNoted);
-    setAllMistakes(allMistakes);
+
+    const newNote = { word: newNoted.word, note: value };
+    pageMistakes.delete(selectedId);
+    pageMistakes.set(selectedId, newNote);
+    setAllMistakes(pageMistakes);
   }
 
   const getLetterId = (wordIndex: number, letterIndex: number) => {
@@ -156,15 +159,7 @@ export default function AddMistakesPerAya({
   // TODO: make styling better so the ayaat get closer to eachother instead of under eachother
   return (
     <span
-      className={allMistakes?.has(pageAndAyaNumber) ? "bg-yellow-100" : ""}
-      // FIX: the hover does not work yet
-      title={
-        allMistakes?.get(pageAndAyaNumber)?.note
-          ? `${
-              allMistakes?.get(pageAndAyaNumber)?.note
-            } \nClick to remove mistake`
-          : undefined
-      }
+      className={pageMistakes?.has(pageAndAyaNumber) ? "bg-yellow-100" : ""}
     >
       {text.split(" ").map((word, wordIndex) => (
         <span
@@ -177,9 +172,9 @@ export default function AddMistakesPerAya({
           id={`${pageAndAyaNumber}-${wordIndex}`}
           className={`${getHighlight(`${pageAndAyaNumber}-${wordIndex}`)}  font-sans leading-relaxed`}
           title={
-            allMistakes?.get(`${pageAndAyaNumber}-${wordIndex}`)?.note
+            pageMistakes?.get(`${pageAndAyaNumber}-${wordIndex}`)?.note
               ? `${
-                  allMistakes?.get(`${pageAndAyaNumber}-${wordIndex}`)?.note
+                  pageMistakes?.get(`${pageAndAyaNumber}-${wordIndex}`)?.note
                 } \nClick to remove mistake`
               : undefined
           }
@@ -192,9 +187,9 @@ export default function AddMistakesPerAya({
               onClick={HandleLetterClicked}
               className={getHighlight(getLetterId(wordIndex, letterIndex))}
               title={
-                allMistakes?.get(getLetterId(wordIndex, letterIndex))?.note
+                pageMistakes?.get(getLetterId(wordIndex, letterIndex))?.note
                   ? `${
-                      allMistakes?.get(getLetterId(wordIndex, letterIndex))
+                      pageMistakes?.get(getLetterId(wordIndex, letterIndex))
                         ?.note
                     } \nClick to remove mistake`
                   : undefined
@@ -235,6 +230,13 @@ export default function AddMistakesPerAya({
           handleAyaClicked(pageAndAyaNumber, "");
         }}
         id={pageAndAyaNumber}
+        title={
+          pageMistakes?.get(pageAndAyaNumber)?.note
+            ? `${
+                pageMistakes?.get(pageAndAyaNumber)?.note
+              } \nClick to remove mistake`
+            : undefined
+        }
       >
         {Number(ayaNumber) + 1}
       </span>

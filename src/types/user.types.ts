@@ -1,8 +1,13 @@
-import { IMistake } from "./ayat.types";
-export type IPageMistakeMap = Map<string, IMistakeMap>;
-export type IMistakeMap = Map<string, IMistake>;
+export type IMistake = {
+  word: string;
+  note?: string;
+};
+//                               pageNumber
+export type IAllMistakeMap = Map<string, IPageMistakeMap>;
+//                                mistakeId
+export type IPageMistakeMap = Map<string, IMistake>;
 export interface IUser {
-  allMistakes: IPageMistakeMap;
+  allMistakes: IAllMistakeMap;
   pageData: IPageData[];
 }
 

@@ -5,13 +5,13 @@ import { Button } from "./ui/button";
 import { saveNewPageMistakes, updatePageData } from "@/context/user";
 import { AuthContext } from "@/context/AuthProvider";
 import { UserContext } from "@/context/UserProvider";
-import { IMistakeMap } from "@/types/ayat.types";
+import { IPageMistakeMap } from "@/types/user.types";
 interface QuranPageProps {
   ayaat: string[];
   pageNumber: number;
   suraNumber: number;
   juzNumber: number;
-  allMistakes: IMistakeMap;
+  pageMistakes: IPageMistakeMap;
 }
 
 export default function QuranPage(props: QuranPageProps) {
@@ -22,18 +22,18 @@ export default function QuranPage(props: QuranPageProps) {
       userData,
       props.pageNumber,
       authData.uid,
-      localMistakes.size,
+      localPageMistakes.size,
     );
     saveNewPageMistakes(
       authData.uid,
-      localMistakes,
+      localPageMistakes,
       props.pageNumber.toString(),
       userData,
     );
   }
   // FIX: if all mistakes is empty, test if the ternary works
-  const [localMistakes, setLocalMistakes] = useState(
-    props.allMistakes ?? new Map(),
+  const [localPageMistakes, setPageLocalMistakes] = useState(
+    props.pageMistakes ?? new Map(),
   );
 
   return (
@@ -58,8 +58,8 @@ export default function QuranPage(props: QuranPageProps) {
             text={aya}
             ayaNumber={index}
             pageNumber={props.pageNumber}
-            allMistakes={localMistakes}
-            setAllMistakes={setLocalMistakes}
+            pageMistakes={localPageMistakes}
+            setAllMistakes={setPageLocalMistakes}
           ></AddMistakesPerAya>
         ))}
 

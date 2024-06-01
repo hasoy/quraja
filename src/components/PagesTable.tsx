@@ -55,13 +55,6 @@ export function PageTable<TData, TValue>({
 
   return (
     <div className="flex flex-col">
-      {/* <div className="flex items-center gap-2"> */}
-      {/*   <p>Hide empty pages</p> */}
-      {/*   <Switch */}
-      {/*     onCheckedChange={(e) => setHideEmptyPages(e)} */}
-      {/*     checked={hideEmptyPages} */}
-      {/*   /> */}
-      {/* </div> */}
       <Table className="my-4 overflow-auto rounded-lg border">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

@@ -5,15 +5,14 @@ import { db } from "@/lib/firestore";
 import { doc, getDoc } from "firebase/firestore";
 import QuranPage from "@/components/QuranPage";
 import LoadingElement from "@/components/LoadingElement";
-import { IMistakeMap } from "@/types/user.types";
+import { IPageMistakeMap } from "@/types/user.types";
 import { UserContext } from "@/context/UserProvider";
 import { useParams } from "next/navigation";
-import { AuthContext } from "@/context/AuthProvider";
 export default function PageView() {
   const userData = useContext(UserContext);
   const [ayaat, setAyaat] = useState([""]);
   const [loading, setLoading] = useState(false);
-  const [userMistakes, setUserMistakes] = useState<IMistakeMap>();
+  const [userMistakes, setUserMistakes] = useState<IPageMistakeMap>();
   const { pageNumber } = useParams();
 
   const getPageData = async () => {
@@ -54,7 +53,7 @@ export default function PageView() {
           pageNumber={Number(pageNumber)}
           suraNumber={0}
           juzNumber={0}
-          allMistakes={userMistakes ?? new Map()}
+          pageMistakes={userMistakes ?? new Map()}
         ></QuranPage>
       )}
     </>
