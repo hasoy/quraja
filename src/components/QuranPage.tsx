@@ -7,6 +7,7 @@ import { AuthContext } from "@/context/AuthProvider";
 import { UserContext } from "@/context/UserProvider";
 import { IPageMistakeMap } from "@/types/user.types";
 import { useRouter } from "next/navigation";
+import { PageInput } from "./PageInput";
 interface QuranPageProps {
   ayaat: string[];
   pageNumber: number;
@@ -38,14 +39,13 @@ export default function QuranPage(props: QuranPageProps) {
     props.pageMistakes ?? new Map(),
   );
   const [formDirty, setFormDirty] = useState(false);
-  console.log(formDirty);
 
   function goToPage(page: number) {
     router.push(`/pages/${page}`);
   }
 
   return (
-    <div className="mx-auto flex h-screen flex-col gap-4 p-4 text-3xl md:w-1/2 lg:w-1/3">
+    <div className="mx-auto flex h-screen flex-col gap-4 p-4  md:w-1/2 lg:w-1/3">
       <div className="flex justify-between">
         <div className="grid gap-2">
           <h3 className="text-lg font-medium">How to mark mistakes:</h3>
@@ -55,11 +55,14 @@ export default function QuranPage(props: QuranPageProps) {
             <li>click on an aya to mark</li>
           </ol>
         </div>
-        <Button className="w-min self-end" onClick={addRevision}>
-          Save revision +1
-        </Button>
+        <div>
+          <PageInput />
+          <Button className="mt-4 w-min self-end" onClick={addRevision}>
+            Save revision +1
+          </Button>
+        </div>
       </div>
-      <ul className="my-10 list-none ">
+      <ul className="my-10 list-none text-3xl">
         {props.ayaat.map((aya, index) => (
           <AddMistakesPerAya
             key={index}

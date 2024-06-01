@@ -47,6 +47,7 @@ export function PageTable<TData, TValue>({
 
   return (
     <div className="flex flex-col">
+      <h3 className="mt-4">Your revised pages history</h3>
       <Table className="my-4 overflow-auto rounded-lg border">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
