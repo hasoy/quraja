@@ -11,7 +11,8 @@ const PageOverview: React.FC = () => {
       <h1 className="my-4">Page overview</h1>
       <p className="mb-8 mt-4">
         View all your pages with their scores, mistakes and revisions. Click on
-        a row to view and revise it again
+        a row to view and revise it again. To start a revision, type the page
+        number in the following field.
       </p>
       <PageInput />
       <PageTable data={userData.pageData} columns={columns} />

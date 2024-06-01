@@ -11,7 +11,7 @@ export function UserProvider({ children }: any) {
 
   useEffect(() => {
     getUserData();
-  }, [authData]);
+  }, []);
 
   const getUserData = () => {
     subscribeToUser(authData?.uid, (user) => {

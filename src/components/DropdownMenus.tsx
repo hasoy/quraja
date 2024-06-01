@@ -25,23 +25,25 @@ export default function DropdownMenus(props: DropdownMenuProps) {
     <DropdownMenu open={props.openMenu} onOpenChange={props.setOpenMenu}>
       <DropdownMenuTrigger></DropdownMenuTrigger>
       {/* TODO: fix get element by id to the correct item */}
-      <DropdownMenuPortal container={document.getElementById(props.portalId)}>
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>What mistake occcured?</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuRadioGroup
-            onValueChange={(value) => {
-              props.onValueChange(value);
-            }}
-          >
-            {props.items.map((item, index) => (
-              <DropdownMenuRadioItem key={item.value} value={item.label}>
-                {index + 1}: {item.label}
-              </DropdownMenuRadioItem>
-            ))}
-          </DropdownMenuRadioGroup>
-        </DropdownMenuContent>
-      </DropdownMenuPortal>
+      {props.portalId && (
+        <DropdownMenuPortal container={document.getElementById(props.portalId)}>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>What mistake occcured?</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuRadioGroup
+              onValueChange={(value) => {
+                props.onValueChange(value);
+              }}
+            >
+              {props.items.map((item, index) => (
+                <DropdownMenuRadioItem key={item.value} value={item.label}>
+                  {index + 1}: {item.label}
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenuPortal>
+      )}
     </DropdownMenu>
   );
 }
