@@ -13,6 +13,7 @@ export default function WeakestRevisions() {
       userData?.pageData?.sort((a, b) => a.score - b.score).slice(0, 5),
     );
   }, []);
+  if (!userData?.pageData?.length) return null;
   return (
     <div className="py-10">
       <h3>Your Weakest 5 Pages:</h3>

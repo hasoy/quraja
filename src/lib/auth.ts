@@ -51,6 +51,7 @@ export const loginWithGoogle = async () => {
       // The signed-in user info.
       // const user = result.user;
       // console.log(user);
+      location.reload();
       return true;
       // IdP data available using getAdditionalUserInfo(result)
       // ...

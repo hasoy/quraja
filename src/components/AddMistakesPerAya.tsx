@@ -30,6 +30,7 @@ export default function AddMistakesPerAya({
   const [openWordMenu, setOpenWordMenu] = useState(false);
   const [openAyaMenu, setOpenAyaMenu] = useState(false);
   const [selectedId, setSelectedId] = useState("");
+  const [dropdownId, setDropdownId] = useState("");
   const pageAndAyaNumber = `${pageNumber}-${ayaNumber}`;
   // TODO: add ability to change a mistake
 
@@ -48,9 +49,7 @@ export default function AddMistakesPerAya({
     setFormDirty(true);
     if (pageMistakes.has(currentLetterId)) {
       const deletedMistake = pageMistakes.get(currentLetterId);
-      console.log(deletedMistake);
       if (!deletedMistake) return;
-      // FIX: Notes seem to not get pulled from database
       toast(`Letter mistake fixed`, {
         description: `Deleted \n ${deletedMistake?.word} ${deletedMistake?.note ?? ""}`,
         action: {
@@ -67,6 +66,7 @@ export default function AddMistakesPerAya({
     }
     setSelectedId(currentLetterId);
     // TODO: make an async await on the open aya menu and only then add the mistake
+    setDropdownId(currentLetterId);
     setOpenLetterMenu(true);
     pageMistakes.set(currentLetterId, { word: target.innerText });
     setNewMap(pageMistakes);
@@ -99,6 +99,7 @@ export default function AddMistakesPerAya({
       return;
     }
     setSelectedId(wordId);
+    setDropdownId(wordId);
     setOpenWordMenu(true);
     // TODO: make an async await on the open aya menu and only then add the mistake
     pageMistakes.set(wordId, { word });
@@ -124,6 +125,7 @@ export default function AddMistakesPerAya({
       return;
     }
     setFormDirty(true);
+    setDropdownId(pageAndAya);
     setOpenAyaMenu(true);
     // TODO: make an async await on the open aya menu and only then add the mistake
     pageMistakes.set(pageAndAya, { word: mistake });
@@ -206,29 +208,36 @@ export default function AddMistakesPerAya({
         </span>
       ))}
       {/* TODO: place the dropdown on the right spot below cursor click  */}
-      <DropdownMenus
-        openMenu={openLetterMenu}
-        setOpenMenu={setOpenLetterMenu}
-        portalId={selectedId.toString()}
-        onValueChange={setNoteOnLetterOrWord}
-        items={letterMistakeOptions}
-      />
 
-      <DropdownMenus
-        openMenu={openWordMenu}
-        setOpenMenu={setOpenWordMenu}
-        portalId={selectedId.toString()}
-        onValueChange={setNoteOnLetterOrWord}
-        items={wordMistakesOptions}
-      />
+      {setOpenLetterMenu && (
+        <DropdownMenus
+          openMenu={openLetterMenu}
+          setOpenMenu={setOpenLetterMenu}
+          portalId={dropdownId}
+          onValueChange={setNoteOnLetterOrWord}
+          items={letterMistakeOptions}
+        />
+      )}
 
-      <DropdownMenus
-        openMenu={openAyaMenu}
-        setOpenMenu={setOpenAyaMenu}
-        portalId={pageAndAyaNumber}
-        onValueChange={(value) => setAyaValue(pageAndAyaNumber, value)}
-        items={ayaMistakesOptions}
-      />
+      {setOpenWordMenu && (
+        <DropdownMenus
+          openMenu={openWordMenu}
+          setOpenMenu={setOpenWordMenu}
+          portalId={dropdownId}
+          onValueChange={setNoteOnLetterOrWord}
+          items={wordMistakesOptions}
+        />
+      )}
+
+      {setOpenAyaMenu && (
+        <DropdownMenus
+          openMenu={openAyaMenu}
+          setOpenMenu={setOpenAyaMenu}
+          portalId={dropdownId}
+          onValueChange={(value) => setAyaValue(pageAndAyaNumber, value)}
+          items={ayaMistakesOptions}
+        />
+      )}
       <span
         className="mr-1 rounded-xl bg-red-800 px-1 text-white"
         onClick={() => {

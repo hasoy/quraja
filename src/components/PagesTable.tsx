@@ -29,7 +29,6 @@ export function PageTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
   const [sorting, setSorting] = useState<SortingState>([]);
-  // TODO: add sorting to table
   function navigatePage(pageNumber: number) {
     router.push(`/pages/${pageNumber}`);
   }
@@ -76,7 +75,7 @@ export function PageTable<TData, TValue>({
                 onClick={() =>
                   navigatePage(row.getValue("pageNumber") || index + 1)
                 }
-                className={`bg-slate-50 hover:cursor-pointer hover:text-white ${row.getValue("totalRevisions") ? "bg-blue-200" : ""}`}
+                className={` hover:cursor-pointer hover:text-white `}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>

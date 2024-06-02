@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  @apply dark;
+}
 h1 {
   @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
 }
@@ -28,48 +31,49 @@ blockquote {
 
 @layer base {
   :root {
-    --background: 240 20% 99%;
-    --foreground: 240 31% 7%;
-    --card: 240 20% 99%;
-    --card-foreground: 240 31% 7%;
-    --popover: 240 20% 99%;
-    --popover-foreground: 240 31% 7%;
-    --primary: 242 31% 51%;
-    --primary-foreground: 240 20% 99%;
-    --secondary: 67 32% 74%;
-    --secondary-foreground: 240 31% 7%;
-    --muted: 240 20% 20%;
-    --muted-foreground: 240 31% 70%;
-    --accent: 130 32% 61%;
-    --accent-foreground: 240 31% 7%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 241 98% 64%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 180 56% 68%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 192 56% 45%;
+    --accent-foreground: 0 0% 0%;
     --destructive: 0 85% 60%;
-    --destructive-foreground: 240 31% 7%;
-    --border: 240 20% 20%;
-    --input: 240 20% 20%;
-    --ring: 130 32% 40%;
+    --destructive-foreground: 0 0% 0%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 192 56% 40%;
     --radius: 0.5rem;
   }
 
+  /* FIX: the dark theme colors not working */
   .dark {
-    --background: 240 20% 1%;
-    --foreground: 240 31% 93%;
-    --card: 240 20% 1%;
-    --card-foreground: 240 31% 93%;
-    --popover: 240 20% 1%;
-    --popover-foreground: 240 31% 93%;
-    --primary: 242 31% 49%;
-    --primary-foreground: 240 31% 93%;
-    --secondary: 67 32% 26%;
-    --secondary-foreground: 240 31% 93%;
-    --muted: 240 20% 80%;
-    --muted-foreground: 240 31% 93%;
-    --accent: 130 32% 39%;
-    --accent-foreground: 240 20% 1%;
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 241 98% 36%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 180 56% 32%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 80%;
+    --muted-foreground: 0 0% 100%;
+    --accent: 192 56% 55%;
+    --accent-foreground: 0 0% 0%;
     --destructive: 0 62% 30%;
-    --destructive-foreground: 240 29% 10%;
-    --border: 240 20% 60%;
-    --input: 240 20% 80%;
-    --ring: 130 32% 60%;
+    --destructive-foreground: 0 0% 10%;
+    --border: 0 0% 60%;
+    --input: 0 0% 80%;
+    --ring: 192 56% 60%;
   }
 }
 

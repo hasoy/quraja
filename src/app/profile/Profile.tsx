@@ -1,28 +1,26 @@
 "use client";
 import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import Typography from "@/components/Typography";
 import { logOutUser } from "@/lib/auth";
 import { useContext } from "react";
 import { AuthContext } from "@/context/AuthProvider";
 import PageWrapper from "@/components/PageWrapper";
+
 // TODO: improve this page and show the user details and logout button
 export default function Profile() {
   const authData = useContext(AuthContext);
   return (
     <PageWrapper>
-      <h1>User Settings</h1>
-      <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
+      <h1 className="mb-10">User Settings</h1>
+      <div className="grid items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
         <nav className="grid gap-4 text-sm ">
           <Link href="#" className="font-semibold text-primary">
             General

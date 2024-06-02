@@ -13,10 +13,11 @@ export const Navbar = () => {
     // { link: "contact", label: "Contact" },
   ];
   return (
-    <nav className="sticky top-0 z-50 bg-slate-200 opacity-75 backdrop-blur-sm">
+    <nav className="sticky top-0 z-50 opacity-75 backdrop-blur-sm">
       <ul className=" m-4 my-4 flex justify-center gap-8 rounded-lg shadow-lg shadow-blue-50">
         {links.map((link) => (
           <Link href={link.link} key={link.label}>
+            {/* TODO: refactor to use card */}
             <li className="mx-4 my-2 rounded-lg p-2 font-bold hover:bg-blue-300">
               {link.label}
             </li>
