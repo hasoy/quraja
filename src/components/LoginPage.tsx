@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { loginUser, loginWithGoogle, signUpUser } from "@/lib/auth";
 
@@ -17,15 +17,20 @@ export function LoginForm() {
   const [login, setLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // TODO: add error state
-  // const [error, setError] = useState("");
+  const [error, setError] = useState("");
+  // TODO: refactor form to use react hook form and zod/yup
 
   const handleLogin = async () => {
     const res = login
       ? await loginUser(email, password)
       : await signUpUser(email, password);
-    if (res) router.push("/");
+    if (res === true) router.push("/");
+    if (typeof res === "string") setError(res);
   };
+
+  useEffect(() => {
+    setError("");
+  }, [password, email, login]);
 
   return (
     <Card className="mx-auto max-w-sm">
@@ -65,7 +70,12 @@ export function LoginForm() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <Button className="w-full" onClick={handleLogin}>
+          {error && <p className="text-red-500">{error}</p>}
+          <Button
+            className="w-full"
+            onClick={handleLogin}
+            disabled={!password || !email}
+          >
             {login ? "Login" : "Sign up"}
           </Button>
           <Button

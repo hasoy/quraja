@@ -8,15 +8,32 @@ import {
 } from "firebase/auth";
 import { auth, db, provider } from "./firestore";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { FirebaseError } from "@firebase/util";
 
+const handleFbError = (error: FirebaseError) => {
+  const errorMap = new Map([
+    ["auth/email-already-in-use", "Email already in use"],
+    ["Firebase: Error (auth/invalid-email).", "Invalid email"],
+    ["Firebase: Error (auth/invalid-password).", "Invalid password"],
+    ["Firebase: Error (auth/missing-password).", "Missing password"],
+    ["Firebase: Error (auth/weak-password).", "Weak password"],
+    ["Firebase: Error (auth/email-already-exists).", "Email already exists"],
+    [
+      "Firebase: Error (auth/invalid-credential).",
+      "Email does not exist, sign up instead",
+    ],
+  ]);
+  const errorMessage = errorMap.get(error.message);
+  if (!errorMessage) return error.message;
+  return errorMessage;
+};
 export const signUpUser = async (email: string, password: string) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     if (res) return true;
   } catch (error) {
-    // TODO: add error handling
-    console.log(error);
-    return false;
+    const errorMessage = error as FirebaseError;
+    return handleFbError(errorMessage);
   }
 };
 
@@ -66,9 +83,8 @@ export const loginUser = async (email: string, password: string) => {
     // TODO: check if this works correctly
     return true;
   } catch (error: unknown) {
-    // TODO: add error handling
-    console.log(error);
-    return false;
+    const errorMessage = error as FirebaseError;
+    return handleFbError(errorMessage);
   }
 };
 

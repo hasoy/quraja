@@ -88,7 +88,8 @@ export function PageTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                No revisions yet. Start by revising a page first by entering the
+                page number above.
               </TableCell>
             </TableRow>
           )}
