@@ -143,8 +143,8 @@ export default function AddMistakesPerAya({
   const getHighlight = (id: string) => {
     if (pageMistakes?.has(id)) {
       const dashes = id.split("-").length;
-      if (dashes === 3) return "bg-green-300";
-      if (dashes === 4) return "bg-red-300";
+      if (dashes === 3) return "bg-green-900";
+      if (dashes === 4) return "bg-red-900";
     }
   };
 
@@ -165,9 +165,7 @@ export default function AddMistakesPerAya({
 
   // TODO: make styling better so the ayaat get closer to eachother instead of under eachother
   return (
-    <span
-      className={pageMistakes?.has(pageAndAyaNumber) ? "bg-yellow-100" : ""}
-    >
+    <span className={pageMistakes?.has(pageAndAyaNumber) ? "bg-blue-900" : ""}>
       {text.split(" ").map((word, wordIndex) => (
         <span
           key={wordIndex}
@@ -239,7 +237,7 @@ export default function AddMistakesPerAya({
         />
       )}
       <span
-        className="mr-1 rounded-xl bg-red-800 px-1 text-white"
+        className="mr-1 rounded-xl bg-primary px-1 text-white"
         onClick={() => {
           handleAyaClicked(pageAndAyaNumber, "");
         }}

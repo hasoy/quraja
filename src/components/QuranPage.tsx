@@ -78,27 +78,30 @@ export default function QuranPage(props: QuranPageProps) {
         {/* TODO: make a cleaner UI for this */}
       </ul>
       <div className="mb-4 flex justify-between">
+        {/* FIX: prevent going to page -1 or 605 */}
         <Button
-          className="w-min self-end"
+          className="w-min self-end underline"
           onClick={() => {
             if (formDirty) addRevision();
             goToPage(props.pageNumber - 1);
           }}
-          variant="link"
+          variant="ghost"
+          disabled={props.pageNumber === 1}
         >
           Go to {props.pageNumber - 1}
         </Button>
 
-        <p className="text-md text-center font-bold text-slate-600 underline">
+        <p className="text-md text-center font-bold ">
           Page {props.pageNumber}
         </p>
         <Button
-          className="w-min self-end"
+          className="w-min self-end underline"
           onClick={() => {
             if (formDirty) addRevision();
             goToPage(props.pageNumber + 1);
           }}
-          variant="link"
+          variant="ghost"
+          disabled={props.pageNumber > 603}
         >
           Go to {props.pageNumber + 1}
         </Button>

@@ -35,7 +35,7 @@ const TableHeaders = [
 
 const SuraTable = (props: SuraTableProps) => {
   return (
-    <div className="border rounded-lg overflow-auto">
+    <div className="overflow-auto rounded-lg border">
       <Table>
         <TableHeader>
           <TableRow>
@@ -60,7 +60,7 @@ const SuraTable = (props: SuraTableProps) => {
               <TableCell>{sura.MemorizedPercent}%</TableCell>
               {/* TODO: Make this value adjustable by the user */}
               <TableCell>
-                <p className={sura.TotalRevisions === 10 ? "bg-green-300" : ""}>
+                <p className={sura.TotalRevisions === 10 ? "bg-green-700" : ""}>
                   {sura.TotalRevisions}/10
                 </p>
               </TableCell>

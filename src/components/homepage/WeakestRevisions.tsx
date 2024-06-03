@@ -22,7 +22,7 @@ export default function WeakestRevisions() {
           <li
             key={index}
             onClick={() => router.push(`/pages/${item.pageNumber}`)}
-            className="w-fit rounded border p-2 hover:bg-blue-200"
+            className="w-fit rounded border p-2 hover:bg-primary"
           >
             <p className="font-bold">Page number: {item.pageNumber}</p>
             <p>
