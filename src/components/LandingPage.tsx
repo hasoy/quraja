@@ -39,7 +39,7 @@ export default function LandingPage() {
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
               Streamline Your Muraja journey
             </h2>
-            <p className="max-w-[900px] text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+            <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
               Discover how Quraja can transform your Muraja process.
             </p>
           </div>
@@ -60,7 +60,9 @@ export default function LandingPage() {
                 <h4>Mark Mistakes</h4>
               </div>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Identify and mark your mistakes as you revise.
+                Mark your mistakes as you revise and review them back later. Get
+                an easy selection of common mistakes to choose from per letter,
+                word or aya.
               </p>
             </div>
             <div className="grid gap-1">
@@ -81,7 +83,7 @@ export default function LandingPage() {
           It is time to change that. With Quraja, you can focus on memorizing.
         </p>
         <h3>As the Hadith from Sahih Muslim states:</h3>
-        <blockquote className="cursor-pointer p-1  hover:bg-purple-700 hover:text-white hover:underline lg:mx-60">
+        <blockquote className="cursor-pointer p-1  hover:bg-primary hover:text-white hover:underline lg:mx-60">
           <a
             href="https://sunnah.com/muslim:791"
             className="p-1"

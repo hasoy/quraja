@@ -2,6 +2,7 @@ import { UserContext } from "@/context/UserProvider";
 import { calculateScore } from "@/helpers/score";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect } from "react";
+import NoPagesYet from "./NoPagesYet";
 
 export default function WeakestRevisions() {
   const userData = useContext(UserContext);
@@ -13,14 +14,14 @@ export default function WeakestRevisions() {
       userData?.pageData?.sort((a, b) => a.score - b.score).slice(0, 5),
     );
   }, []);
-  if (!userData?.pageData?.length) return null;
+  if (!userData?.pageData?.length) return <NoPagesYet />;
   return (
     <div className="py-10">
       <h3>Your Weakest 5 Pages:</h3>
       <ul className="flex flex-col gap-2">
-        {weakestRevisions?.map((item, index) => (
+        {weakestRevisions?.map((item) => (
           <li
-            key={index}
+            key={item.pageNumber}
             onClick={() => router.push(`/pages/${item.pageNumber}`)}
             className="w-fit rounded border p-2 hover:bg-primary"
           >

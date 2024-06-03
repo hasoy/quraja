@@ -8,19 +8,33 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { loginUser, loginWithGoogle, signUpUser } from "@/lib/auth";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { loginSchema } from "@/forms/resolvers/LoginForm.resolver";
 
+type ILoginInputs = {
+  email: string;
+  password: string;
+};
 export function LoginForm() {
   const router = useRouter();
   const [login, setLogin] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  // TODO: refactor form to use react hook form and zod/yup
 
-  const handleLogin = async () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ILoginInputs>({ resolver: yupResolver(loginSchema) });
+
+  const onSubmit: SubmitHandler<ILoginInputs> = (data) => handleLogin(data);
+
+  const handleLogin: SubmitHandler<ILoginInputs> = async (data) => {
+    setError("");
+    const { email, password } = data;
     const res = login
       ? await loginUser(email, password)
       : await signUpUser(email, password);
@@ -28,89 +42,95 @@ export function LoginForm() {
     if (typeof res === "string") setError(res);
   };
 
-  useEffect(() => {
-    setError("");
-  }, [password, email, login]);
-
   return (
-    <Card className="mx-auto max-w-sm">
-      <CardHeader>
-        <CardTitle className="text-2xl">
-          {login ? "Login" : "Sign up"}
-        </CardTitle>
-        <CardDescription>
-          {login
-            ? "Enter your email below to login to your account"
-            : "Enter your email below to sign up"}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="m@example.com"
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="grid gap-2">
-            <div className="flex items-center">
-              <Label htmlFor="password">Password</Label>
-              {/* <Link href="#" className="ml-auto inline-block text-sm underline"> */}
-              {/*   Forgot your password? */}
-              {/* </Link> */}
-            </div>
-            <Input
-              id="password"
-              type="password"
-              required
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          {error && <p className="text-red-500">{error}</p>}
-          <Button
-            className="w-full"
-            onClick={handleLogin}
-            disabled={!password || !email}
-          >
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Card className="mx-auto max-w-sm">
+        <CardHeader>
+          <CardTitle className="text-2xl">
             {login ? "Login" : "Sign up"}
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={loginWithGoogle}
-          >
-            Login with Google
-          </Button>
-        </div>
-        <div className="mt-4 text-center text-sm">
-          {login ? (
-            <>
-              Don&apos;t have an account?{" "}
+          </CardTitle>
+          <CardDescription>
+            {login
+              ? "Enter your email below to login to your account"
+              : "Enter your email below to sign up"}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="m@example.com"
+                {...register("email")}
+                onKeyDown={() => {
+                  setError("");
+                }}
+              />
+              {errors.email && (
+                <span className="text-red-500">Fill in a valid email</span>
+              )}
+            </div>
+            <div className="grid gap-2">
+              <div className="flex items-center">
+                <Label htmlFor="password">Password</Label>
+                {/* <Link href="#" className="ml-auto inline-block text-sm underline"> */}
+                {/*   Forgot your password? */}
+                {/* </Link> */}
+              </div>
+              <Input
+                id="password"
+                type="password"
+                {...register("password")}
+                onKeyDown={() => {
+                  setError("");
+                }}
+              />
+              {errors.password && (
+                <span className="text-red-500">
+                  Password should be at least 6 characters
+                </span>
+              )}
+            </div>
+            {error && <p className="text-red-500">{error}</p>}
+            <Button className="w-full" type="submit">
+              {login ? "Login" : "Sign up"}
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={loginWithGoogle}
+            >
+              Login with Google
+            </Button>
+          </div>
+          <div className="mt-4 text-center text-sm">
+            {login ? (
+              <>
+                Don&apos;t have an account?{" "}
+                <Button
+                  onClick={() => {
+                    setLogin(false);
+                  }}
+                  className="underline"
+                >
+                  Sign up
+                </Button>
+              </>
+            ) : (
               <Button
                 onClick={() => {
-                  setLogin(false);
+                  setLogin(true);
                 }}
                 className="underline"
               >
-                Sign up
+                Back to Login
               </Button>
-            </>
-          ) : (
-            <Button
-              onClick={() => {
-                setLogin(true);
-              }}
-              className="underline"
-            >
-              Back to Login
-            </Button>
-          )}
-        </div>
-      </CardContent>
-    </Card>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </form>
   );
 }

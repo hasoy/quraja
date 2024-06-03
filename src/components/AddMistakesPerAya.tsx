@@ -154,7 +154,6 @@ export default function AddMistakesPerAya({
   function setNoteOnLetterOrWord(value: string) {
     const newNoted = pageMistakes.get(selectedId);
     if (!newNoted) return;
-
     const newNote = { word: newNoted.word, note: value };
     pageMistakes.delete(selectedId);
     pageMistakes.set(selectedId, newNote);

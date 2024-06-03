@@ -15,7 +15,7 @@ export const Navbar = () => {
   ];
   return (
     <nav className="sticky top-0 z-50 opacity-90 backdrop-blur-sm">
-      <ul className="mb-4 flex items-center justify-center gap-20 shadow-lg shadow-blue-500">
+      <ul className="mb-4 flex items-center justify-center shadow-lg shadow-blue-500 md:gap-20">
         {links.map((link) => (
           <Link href={link.link} key={link.label}>
             {/* TODO: refactor to use card */}
