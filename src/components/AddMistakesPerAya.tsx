@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import DropdownMenus from "./DropdownMenus";
 import {
   ayaMistakesOptions,
@@ -8,6 +8,7 @@ import {
 } from "@/constants/dropdown-values";
 import { toast } from "sonner";
 import { IPageMistakeMap } from "@/types/user.types";
+import { useTheme } from "next-themes";
 
 interface AddMistakesProps {
   text: string;
@@ -31,6 +32,7 @@ export default function AddMistakesPerAya({
   const [openAyaMenu, setOpenAyaMenu] = useState(false);
   const [selectedId, setSelectedId] = useState("");
   const [dropdownId, setDropdownId] = useState("");
+  const { theme } = useTheme();
   const pageAndAyaNumber = `${pageNumber}-${ayaNumber}`;
   // TODO: add ability to change a mistake
 
@@ -143,8 +145,9 @@ export default function AddMistakesPerAya({
   const getHighlight = (id: string) => {
     if (pageMistakes?.has(id)) {
       const dashes = id.split("-").length;
-      if (dashes === 3) return "bg-green-900";
-      if (dashes === 4) return "bg-red-900";
+      if (dashes === 3)
+        return theme === "dark" ? "bg-green-900" : "bg-green-300";
+      if (dashes === 4) return theme === "dark" ? "bg-red-900" : "bg-red-300";
     }
   };
 
@@ -165,7 +168,15 @@ export default function AddMistakesPerAya({
 
   // TODO: make styling better so the ayaat get closer to eachother instead of under eachother
   return (
-    <span className={pageMistakes?.has(pageAndAyaNumber) ? "bg-blue-900" : ""}>
+    <span
+      className={
+        pageMistakes?.has(pageAndAyaNumber)
+          ? theme === "dark"
+            ? "bg-blue-900"
+            : "bg-blue-300"
+          : ""
+      }
+    >
       {text.split(" ").map((word, wordIndex) => (
         <span
           key={wordIndex}
