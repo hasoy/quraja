@@ -3,11 +3,7 @@ import { toast } from "sonner";
 import { calculateMistakeScore, calculateScore } from "@/helpers/score";
 import { db } from "@/lib/firestore";
 import { doc, updateDoc, onSnapshot, setDoc } from "firebase/firestore";
-import {
-  IPageMistakeMap as ISinglePageMistakes,
-  IPageData,
-  IUser,
-} from "@/types/user.types";
+import { IAllMistakeMap, IMistake, IPageData, IUser } from "@/types/user.types";
 
 // Convert Map to Object
 function mapToObject(map: Map<any, any>): any {
@@ -132,13 +128,18 @@ export async function updatePageData(
 
 export async function saveNewPageMistakes(
   userId: string,
-  newPageMistakes: ISinglePageMistakes,
-  pageNumber: string,
+  newMistakes: IAllMistakeMap,
   userData: IUser,
 ) {
   const dbMap = userData.allMistakes;
-  dbMap.delete(pageNumber);
-  dbMap.set(pageNumber, newPageMistakes);
+  [...Array.from(newMistakes.keys())].forEach((key) => {
+    if (dbMap.has(key)) {
+      dbMap.delete(key);
+      dbMap.set(key, newMistakes.get(key));
+    } else {
+      dbMap.set(key, newMistakes.get(key));
+    }
+  });
 
   const user = doc(db, "user", userId);
   await updateDoc(user, {

@@ -5,15 +5,23 @@ import { Button } from "./ui/button";
 import { saveNewPageMistakes, updatePageData } from "@/context/user";
 import { AuthContext } from "@/context/AuthProvider";
 import { UserContext } from "@/context/UserProvider";
-import { IPageMistakeMap } from "@/types/user.types";
 import { useRouter } from "next/navigation";
 import { PageInput } from "./PageInput";
+import { IAllMistakeMap } from "@/types/user.types";
+
+export type Aya = {
+  aya: string;
+  ayaNumber: number;
+  suraNumber: number;
+  ayaNumberInSura: number;
+};
+
 interface QuranPageProps {
-  ayaat: string[];
+  ayaat: Aya[];
   pageNumber: number;
   suraNumber: number;
   juzNumber: number;
-  pageMistakes: IPageMistakeMap;
+  pageMistakes: IAllMistakeMap;
 }
 
 export default function QuranPage(props: QuranPageProps) {
@@ -27,12 +35,7 @@ export default function QuranPage(props: QuranPageProps) {
       authData.uid,
       localPageMistakes.size,
     );
-    saveNewPageMistakes(
-      authData.uid,
-      localPageMistakes,
-      props.pageNumber.toString(),
-      userData,
-    );
+    saveNewPageMistakes(authData.uid, localPageMistakes, userData);
     setFormDirty(false);
   }
   const [localPageMistakes, setPageLocalMistakes] = useState(
@@ -66,9 +69,7 @@ export default function QuranPage(props: QuranPageProps) {
         {props.ayaat.map((aya, index) => (
           <AddMistakesPerAya
             key={index}
-            text={aya}
-            ayaNumber={index}
-            pageNumber={props.pageNumber}
+            aya={aya}
             pageMistakes={localPageMistakes}
             setAllMistakes={setPageLocalMistakes}
             setFormDirty={setFormDirty}
@@ -78,7 +79,6 @@ export default function QuranPage(props: QuranPageProps) {
         {/* TODO: make a cleaner UI for this */}
       </ul>
       <div className="mb-4 flex justify-between">
-        {/* FIX: prevent going to page -1 or 605 */}
         <Button
           className="w-min self-end underline"
           onClick={() => {

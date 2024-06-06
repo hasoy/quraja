@@ -40,8 +40,8 @@ export const calculateTimeScore = (lastRevised: string) => {
 
 export const calculateRevisionScore = (totalRevisions: number) => {
   let temp = totalRevisions;
-  if (totalRevisions > 10) temp = 10;
-  return temp * 0.2;
+  if (totalRevisions > 100) temp = 100;
+  return temp * 0.02;
 };
 
 export const calculateScore = (
@@ -53,5 +53,11 @@ export const calculateScore = (
   tempScore += calculateRevisionScore(revisions);
   tempScore += calculateMistakeScore(mistakes);
   tempScore += calculateTimeScore(date);
-  return tempScore * 10;
+
+  return tempScore;
 };
+export const formatScore = (score: number) =>
+  (score / 10).toLocaleString(undefined, {
+    style: "percent",
+    maximumFractionDigits: 1,
+  });

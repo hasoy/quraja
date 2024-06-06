@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import DropdownMenus from "./DropdownMenus";
 import {
   ayaMistakesOptions,
@@ -7,22 +7,18 @@ import {
   wordMistakesOptions,
 } from "@/constants/dropdown-values";
 import { toast } from "sonner";
-import { IPageMistakeMap } from "@/types/user.types";
 import { useTheme } from "next-themes";
+import { Aya } from "./QuranPage";
+import { IAllMistakeMap } from "@/types/user.types";
 
 interface AddMistakesProps {
-  text: string;
-  pageNumber: number;
-  ayaNumber: number;
-  hasMistake?: "similar" | "forgot" | "";
-  pageMistakes: IPageMistakeMap;
-  setAllMistakes: (mistakes: IPageMistakeMap) => void;
+  aya: Aya;
+  pageMistakes: IAllMistakeMap;
+  setAllMistakes: (mistakes: IAllMistakeMap) => void;
   setFormDirty: (dirty: boolean) => void;
 }
 export default function AddMistakesPerAya({
-  text,
-  pageNumber,
-  ayaNumber,
+  aya,
   pageMistakes,
   setAllMistakes,
   setFormDirty,
@@ -33,10 +29,10 @@ export default function AddMistakesPerAya({
   const [selectedId, setSelectedId] = useState("");
   const [dropdownId, setDropdownId] = useState("");
   const { theme } = useTheme();
-  const pageAndAyaNumber = `${pageNumber}-${ayaNumber}`;
+  const ayaId = aya.ayaNumber.toString();
   // TODO: add ability to change a mistake
 
-  function setNewMap(oldMap: IPageMistakeMap) {
+  function setNewMap(oldMap: IAllMistakeMap) {
     const newMap = new Map(oldMap);
     setAllMistakes(newMap);
   }
@@ -162,34 +158,34 @@ export default function AddMistakesPerAya({
   }
 
   const getLetterId = (wordIndex: number, letterIndex: number) => {
-    return `${pageAndAyaNumber}-${wordIndex}-${letterIndex}`;
+    return `${ayaId}-${wordIndex}-${letterIndex}`;
   };
 
   // TODO: make styling better so the ayaat get closer to eachother instead of under eachother
   return (
     <span
       className={
-        pageMistakes?.has(pageAndAyaNumber)
+        pageMistakes?.has(ayaId)
           ? theme === "dark"
             ? "bg-blue-900"
             : "bg-blue-300"
           : ""
       }
     >
-      {text.split(" ").map((word, wordIndex) => (
+      {aya.aya.split(" ").map((word, wordIndex) => (
         <span
           key={wordIndex}
           /* tslint:disable-next-line */
           onClick={(e: unknown) =>
-            handleWordClicked(e, `${pageAndAyaNumber}-${wordIndex}`, word)
+            handleWordClicked(e, `${ayaId}-${wordIndex}`, word)
           }
           // TODO: add on hover for phone users to also ctrl click a work and add mistake
-          id={`${pageAndAyaNumber}-${wordIndex}`}
-          className={`${getHighlight(`${pageAndAyaNumber}-${wordIndex}`)}  font-sans leading-relaxed`}
+          id={`${ayaId}-${wordIndex}`}
+          className={`${getHighlight(`${ayaId}-${wordIndex}`)}  font-sans leading-relaxed`}
           title={
-            pageMistakes?.get(`${pageAndAyaNumber}-${wordIndex}`)?.note
+            pageMistakes?.get(`${ayaId}-${wordIndex}`)?.note
               ? `${
-                  pageMistakes?.get(`${pageAndAyaNumber}-${wordIndex}`)?.note
+                  pageMistakes?.get(`${ayaId}-${wordIndex}`)?.note
                 } \nClick to remove mistake`
               : undefined
           }
@@ -216,7 +212,6 @@ export default function AddMistakesPerAya({
         </span>
       ))}
       {/* TODO: place the dropdown on the right spot below cursor click  */}
-
       {setOpenLetterMenu && (
         <DropdownMenus
           openMenu={openLetterMenu}
@@ -226,7 +221,6 @@ export default function AddMistakesPerAya({
           items={letterMistakeOptions}
         />
       )}
-
       {setOpenWordMenu && (
         <DropdownMenus
           openMenu={openWordMenu}
@@ -236,31 +230,28 @@ export default function AddMistakesPerAya({
           items={wordMistakesOptions}
         />
       )}
-
       {setOpenAyaMenu && (
         <DropdownMenus
           openMenu={openAyaMenu}
           setOpenMenu={setOpenAyaMenu}
           portalId={dropdownId}
-          onValueChange={(value) => setAyaValue(pageAndAyaNumber, value)}
+          onValueChange={(value) => setAyaValue(ayaId, value)}
           items={ayaMistakesOptions}
         />
       )}
       <span
         className="mr-1 rounded-xl bg-primary px-1 text-white"
         onClick={() => {
-          handleAyaClicked(pageAndAyaNumber, "");
+          handleAyaClicked(ayaId, "");
         }}
-        id={pageAndAyaNumber}
+        id={ayaId}
         title={
-          pageMistakes?.get(pageAndAyaNumber)?.note
-            ? `${
-                pageMistakes?.get(pageAndAyaNumber)?.note
-              } \nClick to remove mistake`
+          pageMistakes?.get(ayaId)?.note
+            ? `${pageMistakes?.get(ayaId)?.note} \nClick to remove mistake`
             : undefined
         }
       >
-        {Number(ayaNumber) + 1}
+        {Number(aya.ayaNumberInSura)}
       </span>
     </span>
   );

@@ -665,7 +665,7 @@ type IAyatPerSura = [
   revelationType: string,
 ];
 export const AYAT_PER_SURA: IAyatPerSura[] = [
-  [0, 7, 5, 1, "Ø§Ù„ÙØ§ØªØ­Ø©", "Al-Faatiha", "The Opening", "Meccan"],
+  [1, 7, 5, 1, "Ø§Ù„ÙØ§ØªØ­Ø©", "Al-Faatiha", "The Opening", "Meccan"],
   [7, 286, 87, 40, "Ø§Ù„Ø¨Ù‚Ø±Ø©", "Al-Baqara", "The Cow", "Medinan"],
   [
     293,

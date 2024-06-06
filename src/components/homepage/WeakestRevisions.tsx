@@ -3,6 +3,7 @@ import { calculateScore } from "@/helpers/score";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect } from "react";
 import NoPagesYet from "./NoPagesYet";
+import { calculateSuraNumber, pushPages } from "@/data/addSuwar";
 
 export default function WeakestRevisions() {
   const userData = useContext(UserContext);
@@ -13,6 +14,7 @@ export default function WeakestRevisions() {
     setWeakestRevisions(
       userData?.pageData?.sort((a, b) => a.score - b.score).slice(0, 5),
     );
+    // pushPages();
   }, []);
   if (!userData?.pageData?.length) return <NoPagesYet />;
   return (

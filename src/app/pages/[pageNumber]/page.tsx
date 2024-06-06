@@ -3,22 +3,22 @@
 import { useContext, useEffect, useState } from "react";
 import { db } from "@/lib/firestore";
 import { doc, getDoc } from "firebase/firestore";
-import QuranPage from "@/components/QuranPage";
+import QuranPage, { Aya } from "@/components/QuranPage";
 import LoadingElement from "@/components/LoadingElement";
-import { IPageMistakeMap } from "@/types/user.types";
 import { UserContext } from "@/context/UserProvider";
 import { useParams } from "next/navigation";
+import { IAllMistakeMap } from "@/types/user.types";
 export default function PageView() {
   const userData = useContext(UserContext);
-  const [ayaat, setAyaat] = useState([""]);
+  const [ayaat, setAyaat] = useState<Aya[]>([]);
   const [loading, setLoading] = useState(false);
-  const [userMistakes, setUserMistakes] = useState<IPageMistakeMap>();
+  const [userMistakes, setUserMistakes] = useState<IAllMistakeMap>();
   const { pageNumber } = useParams();
 
   const getPageData = async () => {
     const pageNumberInt = Number(pageNumber);
     if (pageNumberInt > 606 || pageNumberInt < 1) {
-      setAyaat(["This page does not exist"]);
+      setAyaat([{ aya: "This page does not exist", ayaNumber: 0 }]);
       return;
     }
     try {
@@ -28,10 +28,11 @@ export default function PageView() {
       if (docSnap.exists()) {
         setAyaat(docSnap.data().ayaat);
       } else {
-        setAyaat(["This page does not exist"]);
+        setAyaat([{ aya: "This page does not exist", ayaNumber: 0 }]);
         return;
       }
-      setUserMistakes(userData.allMistakes.get(pageNumber.toString()));
+      // FIX: adjust this to get the mistakes per page instead of all of them
+      setUserMistakes(userData.allMistakes);
     } catch (error) {
       console.error("Error getting page data");
     } finally {
@@ -53,6 +54,7 @@ export default function PageView() {
           pageNumber={Number(pageNumber)}
           suraNumber={0}
           juzNumber={0}
+          // FIX: adjust this to get the mistkaes per page instead of all of them
           pageMistakes={userMistakes ?? new Map()}
         ></QuranPage>
       )}

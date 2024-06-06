@@ -2,14 +2,7 @@
 import { IPageData } from "@/types/user.types";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-import {
-  calculateScore,
-  getDaysFromToday,
-  getDaysLabel,
-} from "@/helpers/score";
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
+import { formatScore, getDaysFromToday, getDaysLabel } from "@/helpers/score";
 
 export const columns: ColumnDef<IPageData>[] = [
   {
@@ -40,12 +33,7 @@ export const columns: ColumnDef<IPageData>[] = [
       );
     },
     cell: ({ row }) => {
-      const score = calculateScore(
-        row.getValue("totalRevisions"),
-        row.getValue("mistakes"),
-        row.getValue("lastRevised"),
-      );
-      return <div>{score}%</div>;
+      return <div>{formatScore(row.getValue("score"))}</div>;
     },
   },
   {
