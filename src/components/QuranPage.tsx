@@ -70,7 +70,7 @@ export default function QuranPage(props: QuranPageProps) {
           <AddMistakesPerAya
             key={index}
             aya={aya}
-            pageMistakes={localPageMistakes}
+            allMistakes={localPageMistakes}
             setAllMistakes={setPageLocalMistakes}
             setFormDirty={setFormDirty}
           ></AddMistakesPerAya>
