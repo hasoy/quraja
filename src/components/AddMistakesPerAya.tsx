@@ -162,10 +162,9 @@ export default function AddMistakesPerAya({
     return `${ayaId}-${wordIndex}-${letterIndex}`;
   };
 
-  const bismillah = "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيم";
+  const bismillah = "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ";
   const ayaContainsBismillah = aya.aya.includes(bismillah);
 
-  // TODO: make styling better so the ayaat get closer to eachother instead of under eachother
   return (
     <span
       className={
@@ -180,6 +179,7 @@ export default function AddMistakesPerAya({
       {ayaContainsBismillah && (
         <div className="mb-2 flex justify-around gap-4 bg-primary bg-opacity-90 py-2 text-end text-3xl text-white ">
           <span>{AYAT_PER_SURA[aya.suraNumber - 1][5]} </span>
+          <span>{aya.suraNumber}</span>
           <span>{bismillah}</span>
         </div>
       )}
@@ -225,7 +225,7 @@ export default function AddMistakesPerAya({
             ))}
           </span>
         ))}
-      {/* TODO: place the dropdown on the right spot below cursor click  */}
+      {/* FIX: place the dropdown on the right spot below cursor click  */}
       {setOpenLetterMenu && (
         <DropdownMenus
           openMenu={openLetterMenu}
