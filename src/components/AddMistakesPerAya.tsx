@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { useTheme } from "next-themes";
 import { Aya } from "./QuranPage";
 import { IAllMistakeMap } from "@/types/user.types";
+import { AYAT_PER_SURA } from "@/data/page-meta";
 
 interface AddMistakesProps {
   aya: Aya;
@@ -161,6 +162,9 @@ export default function AddMistakesPerAya({
     return `${ayaId}-${wordIndex}-${letterIndex}`;
   };
 
+  const bismillah = "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيم";
+  const ayaContainsBismillah = aya.aya.includes(bismillah);
+
   // TODO: make styling better so the ayaat get closer to eachother instead of under eachother
   return (
     <span
@@ -172,45 +176,55 @@ export default function AddMistakesPerAya({
           : ""
       }
     >
-      {aya.aya.split(" ").map((word, wordIndex) => (
-        <span
-          key={wordIndex}
-          /* tslint:disable-next-line */
-          onClick={(e: unknown) =>
-            handleWordClicked(e, `${ayaId}-${wordIndex}`, word)
-          }
-          // TODO: add on hover for phone users to also ctrl click a work and add mistake
-          id={`${ayaId}-${wordIndex}`}
-          className={`${getHighlight(`${ayaId}-${wordIndex}`)}  font-sans leading-relaxed`}
-          title={
-            allMistakes?.get(`${ayaId}-${wordIndex}`)?.note
-              ? `${
-                  allMistakes?.get(`${ayaId}-${wordIndex}`)?.note
-                } \nClick to remove mistake`
-              : undefined
-          }
-        >
-          {" "}
-          {word.split("").map((letter, letterIndex) => (
-            <span
-              key={getLetterId(wordIndex, letterIndex)}
-              id={getLetterId(wordIndex, letterIndex)}
-              onClick={HandleLetterClicked}
-              className={getHighlight(getLetterId(wordIndex, letterIndex))}
-              title={
-                allMistakes?.get(getLetterId(wordIndex, letterIndex))?.note
-                  ? `${
-                      allMistakes?.get(getLetterId(wordIndex, letterIndex))
-                        ?.note
-                    } \nClick to remove mistake`
-                  : undefined
-              }
-            >
-              {letter}
-            </span>
-          ))}
-        </span>
-      ))}
+      {/* TODO: make better styling */}
+      {ayaContainsBismillah && (
+        <div className="mb-2 flex justify-around gap-4 bg-primary bg-opacity-90 py-2 text-end text-3xl text-white ">
+          <span>{AYAT_PER_SURA[aya.suraNumber - 1][5]} </span>
+          <span>{bismillah}</span>
+        </div>
+      )}
+      {aya.aya
+        .replace(bismillah, "")
+        .split(" ")
+        .map((word, wordIndex) => (
+          <span
+            key={wordIndex}
+            /* tslint:disable-next-line */
+            onClick={(e: unknown) =>
+              handleWordClicked(e, `${ayaId}-${wordIndex}`, word)
+            }
+            // TODO: add on hover for phone users to also ctrl click a work and add mistake
+            id={`${ayaId}-${wordIndex}`}
+            className={`${getHighlight(`${ayaId}-${wordIndex}`)}  font-sans leading-relaxed`}
+            title={
+              allMistakes?.get(`${ayaId}-${wordIndex}`)?.note
+                ? `${
+                    allMistakes?.get(`${ayaId}-${wordIndex}`)?.note
+                  } \nClick to remove mistake`
+                : undefined
+            }
+          >
+            {" "}
+            {word.split("").map((letter, letterIndex) => (
+              <span
+                key={getLetterId(wordIndex, letterIndex)}
+                id={getLetterId(wordIndex, letterIndex)}
+                onClick={HandleLetterClicked}
+                className={getHighlight(getLetterId(wordIndex, letterIndex))}
+                title={
+                  allMistakes?.get(getLetterId(wordIndex, letterIndex))?.note
+                    ? `${
+                        allMistakes?.get(getLetterId(wordIndex, letterIndex))
+                          ?.note
+                      } \nClick to remove mistake`
+                    : undefined
+                }
+              >
+                {letter}
+              </span>
+            ))}
+          </span>
+        ))}
       {/* TODO: place the dropdown on the right spot below cursor click  */}
       {setOpenLetterMenu && (
         <DropdownMenus

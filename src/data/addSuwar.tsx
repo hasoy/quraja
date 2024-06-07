@@ -24,6 +24,12 @@ export const calculateSuraNumber = (ayaNumber: number) => {
       }
       return { suraNumber: index + 1, ayaNumberInSura };
     }
+    if (ayaNumber - 1 === endAya) {
+      return {
+        suraNumber: index + 1,
+        ayaNumberInSura: AYAT_PER_SURA[index][1],
+      };
+    }
   }
   return 0;
 };
@@ -51,5 +57,6 @@ export async function pushPages() {
       ayaat: mappedAyaat,
       suwarOnPage: uniqueSuras,
     });
+    console.log("done");
   });
 }
