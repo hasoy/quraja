@@ -18,7 +18,14 @@ export default function PageView() {
   const getPageData = async () => {
     const pageNumberInt = Number(pageNumber);
     if (pageNumberInt > 606 || pageNumberInt < 1) {
-      setAyaat([{ aya: "This page does not exist", ayaNumber: 0 }]);
+      setAyaat([
+        {
+          aya: "This page does not exist",
+          ayaNumber: 0,
+          suraNumber: 0,
+          ayaNumberInSura: 0,
+        },
+      ]);
       return;
     }
     try {
@@ -28,7 +35,14 @@ export default function PageView() {
       if (docSnap.exists()) {
         setAyaat(docSnap.data().ayaat);
       } else {
-        setAyaat([{ aya: "This page does not exist", ayaNumber: 0 }]);
+        setAyaat([
+          {
+            aya: "This page does not exist",
+            ayaNumber: 0,
+            suraNumber: 0,
+            ayaNumberInSura: 0,
+          },
+        ]);
         return;
       }
       // FIX: adjust this to get the mistakes per page instead of all of them

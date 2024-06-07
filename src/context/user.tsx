@@ -135,9 +135,9 @@ export async function saveNewPageMistakes(
   [...Array.from(newMistakes.keys())].forEach((key) => {
     if (dbMap.has(key)) {
       dbMap.delete(key);
-      dbMap.set(key, newMistakes.get(key));
+      dbMap.set(key, newMistakes.get(key) as IMistake);
     } else {
-      dbMap.set(key, newMistakes.get(key));
+      dbMap.set(key, newMistakes.get(key) as IMistake);
     }
   });
 
