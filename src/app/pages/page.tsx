@@ -3,8 +3,8 @@ import { PageTable } from "@/components/PagesTable";
 import { columns } from "@/components/PagesTableColums";
 import { UserContext } from "@/context/UserProvider";
 import { useContext } from "react";
-import { PageInput } from "@/components/PageInput";
 import PageWrapper from "@/components/PageWrapper";
+import { PageAndSuraSelect } from "@/components/PageAndSuraSelect";
 const PageOverview: React.FC = () => {
   const userData = useContext(UserContext);
   return (
@@ -15,7 +15,8 @@ const PageOverview: React.FC = () => {
         a row to view and revise it again. To start a revision, type the page
         number in the following field.
       </p>
-      <PageInput />
+      <PageAndSuraSelect />
+
       <PageTable data={userData.pageData} columns={columns} />
     </PageWrapper>
   );

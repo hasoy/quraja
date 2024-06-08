@@ -19,8 +19,7 @@ export const PageInput = () => {
   return (
     <div className="flex flex-col ">
       <label htmlFor="input" className="font-bold">
-        Type page number and <br />
-        press enter to view
+        Enter page number
       </label>
       <InputOTP
         maxLength={3}

@@ -6,8 +6,8 @@ import { saveNewPageMistakes, updatePageData } from "@/context/user";
 import { AuthContext } from "@/context/AuthProvider";
 import { UserContext } from "@/context/UserProvider";
 import { useRouter } from "next/navigation";
-import { PageInput } from "./PageInput";
 import { IAllMistakeMap } from "@/types/user.types";
+import { PageAndSuraSelect } from "./PageAndSuraSelect";
 
 export type Aya = {
   aya: string;
@@ -59,7 +59,7 @@ export default function QuranPage(props: QuranPageProps) {
           </ol>
         </div>
         <div>
-          <PageInput />
+          <PageAndSuraSelect />
           <Button className="mt-4 w-min self-end" onClick={addRevision}>
             Save revision +1
           </Button>

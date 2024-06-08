@@ -40,7 +40,7 @@ export function SuraDropdown() {
         <Command>
           <CommandInput placeholder="Search sura..." />
           <CommandEmpty>No sura found.</CommandEmpty>
-          <CommandGroup>
+          <CommandGroup className="max-h-[300px] overflow-y-auto">
             {SURAH_DATA.map((sura, index) => (
               <CommandItem
                 key={sura[0]}

@@ -1,5 +1,5 @@
 import React from "react";
-import { PageInput } from "../PageInput";
+import { PageAndSuraSelect } from "../PageAndSuraSelect";
 
 export default function NoPagesYet() {
   return (
@@ -7,7 +7,8 @@ export default function NoPagesYet() {
       <h3>
         You have not reviewed any pages yet. Start by going to a specific page.
       </h3>
-      <PageInput></PageInput>
+
+      <PageAndSuraSelect />
     </div>
   );
 }
