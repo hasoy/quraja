@@ -78,30 +78,29 @@ export default function AddMistakesPerAya({
   ): void {
     const ctrlPressed = (event as MouseEvent).ctrlKey;
     if (!ctrlPressed) return;
-    const wordId = wordIndex.toString();
     setFormDirty(true);
-    if (allMistakes.has(wordId)) {
-      const wordMistake = allMistakes.get(wordId);
+    if (allMistakes.has(wordIndex)) {
+      const wordMistake = allMistakes.get(wordIndex);
       if (!wordMistake) return;
       toast(`Word mistake fixed`, {
         description: `Deleted \n ${wordMistake?.marked} ${wordMistake?.note ?? ""}`,
         action: {
           label: "Undo",
           onClick: () => {
-            allMistakes.set(wordId, wordMistake);
+            allMistakes.set(wordIndex, wordMistake);
             setNewMap(allMistakes);
           },
         },
       });
-      allMistakes.delete(wordId);
+      allMistakes.delete(wordIndex);
       setNewMap(allMistakes);
       return;
     }
-    setSelectedId(wordId);
-    setDropdownId(wordId);
+    setSelectedId(wordIndex);
+    setDropdownId(wordIndex);
     setOpenWordMenu(true);
     // TODO: make an async await on the open aya menu and only then add the mistake
-    allMistakes.set(wordId, { marked: word });
+    allMistakes.set(wordIndex, { marked: word });
     setNewMap(allMistakes);
   }
 
@@ -142,9 +141,10 @@ export default function AddMistakesPerAya({
   const getHighlight = (id: string) => {
     if (allMistakes?.has(id)) {
       const dashes = id.split("-").length;
-      if (dashes === 3)
+      console.log(dashes);
+      if (dashes === 2)
         return theme === "dark" ? "bg-green-900" : "bg-green-300";
-      if (dashes === 4) return theme === "dark" ? "bg-red-900" : "bg-red-300";
+      if (dashes === 3) return theme === "dark" ? "bg-red-900" : "bg-red-300";
     }
   };
 
