@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { useTheme } from "next-themes";
 import { Aya } from "./QuranPage";
 import { IAllMistakeMap } from "@/types/user.types";
-import { AYAT_PER_SURA } from "@/data/page-meta";
+import { SURAH_DATA } from "@/data/suwar";
 
 interface AddMistakesProps {
   aya: Aya;
@@ -178,8 +178,8 @@ export default function AddMistakesPerAya({
     >
       {/* TODO: make better styling */}
       {ayaContainsBismillah && (
-        <div className="mb-2 flex justify-around gap-4 bg-primary bg-opacity-90 py-2 text-end text-3xl text-white ">
-          <span>{AYAT_PER_SURA[aya.suraNumber - 1][5]} </span>
+        <div className="mb-2 flex justify-around gap-4 bg-primary bg-opacity-90 py-2 text-end text-xl text-white ">
+          <span>{SURAH_DATA[aya.suraNumber - 1][0]}</span>
           <span>{aya.suraNumber}</span>
           <span>{bismillah}</span>
         </div>

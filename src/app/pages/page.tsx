@@ -13,7 +13,8 @@ const PageOverview: React.FC = () => {
       <p className="mb-8 mt-4">
         View all your pages with their scores, mistakes and revisions. Click on
         a row to view and revise it again. To start a revision, type the page
-        number in the following field.
+        number in the following field. Sort your pages to easily see which ones
+        you have revised last or which ones are weakest.
       </p>
       <PageAndSuraSelect />
 

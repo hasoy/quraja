@@ -48,9 +48,9 @@ export default function QuranPage(props: QuranPageProps) {
   }
 
   return (
-    <div className="mx-auto flex h-screen flex-col gap-4 p-4 text-right  md:w-1/2 lg:w-1/3">
+    <div className="mx-auto flex h-screen flex-col gap-4 p-4 md:w-1/2 lg:w-1/3">
       <div className="flex justify-between">
-        <div className="grid gap-2">
+        <div>
           <h3 className="text-lg font-medium">How to mark mistakes:</h3>
           <ol className="list-decimal space-y-1 pl-4 text-sm text-gray-500 dark:text-gray-400">
             <li>click on a letter to mark</li>
@@ -65,7 +65,7 @@ export default function QuranPage(props: QuranPageProps) {
           </Button>
         </div>
       </div>
-      <ul className="my-10 list-none text-3xl">
+      <ul className="my-10 list-none text-right text-3xl">
         {props.ayaat.map((aya, index) => (
           <AddMistakesPerAya
             key={index}

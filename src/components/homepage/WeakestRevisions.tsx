@@ -1,9 +1,8 @@
 import { UserContext } from "@/context/UserProvider";
-import { calculateScore } from "@/helpers/score";
+import { calculateScore, formatScore } from "@/helpers/score";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect } from "react";
 import NoPagesYet from "./NoPagesYet";
-import { calculateSuraNumber, pushPages } from "@/data/addSuwar";
 
 export default function WeakestRevisions() {
   const userData = useContext(UserContext);
@@ -14,7 +13,6 @@ export default function WeakestRevisions() {
     setWeakestRevisions(
       userData?.pageData?.sort((a, b) => a.score - b.score).slice(0, 5),
     );
-    // pushPages();
   }, []);
   if (!userData?.pageData?.length) return <NoPagesYet />;
   return (
@@ -30,12 +28,13 @@ export default function WeakestRevisions() {
             <p className="font-bold">Page number: {item.pageNumber}</p>
             <p>
               Score:{" "}
-              {calculateScore(
-                item.totalRevisions,
-                item.mistakes,
-                item.lastRevised,
+              {formatScore(
+                calculateScore(
+                  item.totalRevisions,
+                  item.mistakes,
+                  item.lastRevised,
+                ),
               )}
-              %
             </p>
           </li>
         ))}
