@@ -141,7 +141,6 @@ export default function AddMistakesPerAya({
   const getHighlight = (id: string) => {
     if (allMistakes?.has(id)) {
       const dashes = id.split("-").length;
-      console.log(dashes);
       if (dashes === 2)
         return theme === "dark" ? "bg-green-900" : "bg-green-300";
       if (dashes === 3) return theme === "dark" ? "bg-red-900" : "bg-red-300";
