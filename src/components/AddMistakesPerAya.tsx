@@ -164,6 +164,8 @@ export default function AddMistakesPerAya({
 
   const bismillah = "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ";
   const ayaContainsBismillah = aya.aya.includes(bismillah);
+  const bismillahFatiha = aya.suraNumber === 1 && aya.ayaNumberInSura === 1;
+  const ayaText = bismillahFatiha ? aya.aya : aya.aya.replace(bismillah, "");
 
   return (
     <span
@@ -183,48 +185,45 @@ export default function AddMistakesPerAya({
           <span>{bismillah}</span>
         </div>
       )}
-      {aya.aya
-        .replace(bismillah, "")
-        .split(" ")
-        .map((word, wordIndex) => (
-          <span
-            key={wordIndex}
-            /* tslint:disable-next-line */
-            onClick={(e: unknown) =>
-              handleWordClicked(e, `${ayaId}-${wordIndex}`, word)
-            }
-            // TODO: add on hover for phone users to also ctrl click a work and add mistake
-            id={`${ayaId}-${wordIndex}`}
-            className={`${getHighlight(`${ayaId}-${wordIndex}`)}  font-sans leading-relaxed`}
-            title={
-              allMistakes?.get(`${ayaId}-${wordIndex}`)?.note
-                ? `${
-                    allMistakes?.get(`${ayaId}-${wordIndex}`)?.note
-                  } \nClick to remove mistake`
-                : undefined
-            }
-          >
-            {" "}
-            {word.split("").map((letter, letterIndex) => (
-              <span
-                key={getLetterId(wordIndex, letterIndex)}
-                id={getLetterId(wordIndex, letterIndex)}
-                onClick={HandleLetterClicked}
-                className={getHighlight(getLetterId(wordIndex, letterIndex))}
-                title={
-                  allMistakes?.get(getLetterId(wordIndex, letterIndex))?.note
-                    ? `${
-                        allMistakes?.get(getLetterId(wordIndex, letterIndex))
-                          ?.note
-                      } \nClick to remove mistake`
-                    : undefined
-                }
-              >
-                {letter}
-              </span>
-            ))}
-          </span>
-        ))}
+      {ayaText.split(" ").map((word, wordIndex) => (
+        <span
+          key={wordIndex}
+          /* tslint:disable-next-line */
+          onClick={(e: unknown) =>
+            handleWordClicked(e, `${ayaId}-${wordIndex}`, word)
+          }
+          // TODO: add on hover for phone users to also ctrl click a work and add mistake
+          id={`${ayaId}-${wordIndex}`}
+          className={`${getHighlight(`${ayaId}-${wordIndex}`)}  font-sans leading-relaxed`}
+          title={
+            allMistakes?.get(`${ayaId}-${wordIndex}`)?.note
+              ? `${
+                  allMistakes?.get(`${ayaId}-${wordIndex}`)?.note
+                } \nClick to remove mistake`
+              : undefined
+          }
+        >
+          {" "}
+          {word.split("").map((letter, letterIndex) => (
+            <span
+              key={getLetterId(wordIndex, letterIndex)}
+              id={getLetterId(wordIndex, letterIndex)}
+              onClick={HandleLetterClicked}
+              className={getHighlight(getLetterId(wordIndex, letterIndex))}
+              title={
+                allMistakes?.get(getLetterId(wordIndex, letterIndex))?.note
+                  ? `${
+                      allMistakes?.get(getLetterId(wordIndex, letterIndex))
+                        ?.note
+                    } \nClick to remove mistake`
+                  : undefined
+              }
+            >
+              {letter}
+            </span>
+          ))}
+        </span>
+      ))}
       {/* FIX: place the dropdown on the right spot below cursor click  */}
       {setOpenLetterMenu && (
         <DropdownMenus
