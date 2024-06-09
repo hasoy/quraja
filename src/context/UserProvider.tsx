@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { subscribeToUser } from "./user";
 import { AuthContext } from "./AuthProvider";
 import { calculateScore } from "@/helpers/score";
+import { LoadingElement } from "@/components/LoadingElement";
 
 export const UserContext = createContext({} as IUser);
 export function UserProvider({ children }: any) {
@@ -29,7 +30,7 @@ export function UserProvider({ children }: any) {
       setUserData(user);
     });
   };
-  if (!userData) return <div>Loading...</div>;
+  if (!userData) return <LoadingElement></LoadingElement>;
   return (
     <UserContext.Provider value={userData}>{children}</UserContext.Provider>
   );

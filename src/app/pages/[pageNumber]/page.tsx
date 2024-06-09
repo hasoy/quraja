@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { db } from "@/lib/firestore";
 import { doc, getDoc } from "firebase/firestore";
 import QuranPage, { Aya } from "@/components/QuranPage";
-import LoadingElement from "@/components/LoadingElement";
+import { LoadingElement } from "@/components/LoadingElement";
 import { UserContext } from "@/context/UserProvider";
 import { useParams } from "next/navigation";
 import { IAllMistakeMap } from "@/types/user.types";

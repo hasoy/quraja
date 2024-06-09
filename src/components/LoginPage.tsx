@@ -75,6 +75,7 @@ export function LoginForm() {
             <div className="grid gap-2">
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
+                {/* TODO: add forgot password functionality */}
                 {/* <Link href="#" className="ml-auto inline-block text-sm underline"> */}
                 {/*   Forgot your password? */}
                 {/* </Link> */}
@@ -83,9 +84,7 @@ export function LoginForm() {
                 id="password"
                 type="password"
                 {...register("password")}
-                onKeyDown={() => {
-                  setError("");
-                }}
+                onKeyDown={() => setError("")}
               />
               {errors.password && (
                 <span className="text-red-500">
@@ -94,7 +93,7 @@ export function LoginForm() {
               )}
             </div>
             {error && <p className="text-red-500">{error}</p>}
-            <Button className="w-full" type="submit">
+            <Button className="w-full " type="submit">
               {login ? "Login" : "Sign up"}
             </Button>
             <Button
@@ -109,14 +108,7 @@ export function LoginForm() {
             {login ? (
               <>
                 Don&apos;t have an account?{" "}
-                <Button
-                  onClick={() => {
-                    setLogin(false);
-                  }}
-                  className="underline"
-                >
-                  Sign up
-                </Button>
+                <Button onClick={() => setLogin(false)}>Sign up</Button>
               </>
             ) : (
               <Button

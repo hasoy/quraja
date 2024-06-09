@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import FaqHome from "@/components/FaqHome";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/images/hero.jpeg";
 import { LoginForm } from "./LoginPage";
@@ -17,7 +16,8 @@ export default function LandingPage() {
           <p>
             Streamline your hifdh, mark mistakes, and know what to revise next.
             Finally start revising with a clear overview. Focus more on
-            memorizing ayat than memorizing your mistakes and revision schedule.
+            memorizing ayat rather than memorizing your mistakes and revision
+            schedule.
           </p>
           <div className="mt-4 space-x-4 md:mt-20">
             <Button onClick={() => loginRef?.current?.scrollIntoView()}>
@@ -37,7 +37,7 @@ export default function LandingPage() {
         <div className="container space-y-12 px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-              Streamline Your Muraja journey
+              Streamline Your Muraja process
             </h2>
             <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
               Discover how Quraja can transform your Muraja process.
@@ -51,7 +51,8 @@ export default function LandingPage() {
                 <h4>Score per page</h4>
               </div>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Keep track and get a score per page to know what to revise next.
+                Keep track of and get a score per page to know what to revise
+                next
               </p>
             </div>
             <div className="grid gap-1">
@@ -62,7 +63,7 @@ export default function LandingPage() {
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 Mark your mistakes as you revise and review them back later. Get
                 an easy selection of common mistakes to choose from per letter,
-                word or aya.
+                word or aya
               </p>
             </div>
             <div className="grid gap-1">
@@ -71,7 +72,7 @@ export default function LandingPage() {
                 <h4>Keep track of revision</h4>
               </div>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Track when you last revised and how many times.
+                Know when you last revised and how many times
               </p>
             </div>
           </div>
@@ -79,9 +80,7 @@ export default function LandingPage() {
       </section>
       <section className="container mx-auto w-full space-y-6 px-4 py-12 text-center md:px-6 md:py-24 lg:py-32">
         <h2>Everyone knows memorizing is easy, but revising is hard.</h2>
-        <p>
-          It is time to change that. With Quraja, you can focus on memorizing.
-        </p>
+        <p>It is time to change that with Quraja</p>
         <h3>As the Hadith from Sahih Muslim states:</h3>
         <blockquote className="cursor-pointer p-1  hover:bg-primary hover:text-white hover:underline lg:mx-60">
           <a

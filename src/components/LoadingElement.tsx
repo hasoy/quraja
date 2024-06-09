@@ -1,10 +1,14 @@
-function LoadingElement() {
+import Image from "next/image";
+
+import book2 from "@/assets/book2.gif";
+export const LoadingElement = () => {
   return (
-    <div className="flex h-96 items-center justify-center">
-      loading
-      <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-gray-900"></div>
+    <div
+      className="absolute left-0 top-0 flex h-screen w-screen flex-col
+      items-center justify-center bg-black text-white"
+    >
+      <span>Getting data...</span>
+      <Image src={book2} alt="Book" width={150} height={150} />
     </div>
   );
-}
-
-export default LoadingElement;
+};
