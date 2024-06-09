@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { db } from "@/lib/firestore";
 import { doc, getDoc } from "firebase/firestore";
 import QuranPage from "@/components/QuranPage";
-import { AYAAT } from "@/data/ayaat";
+// import { AYAAT } from "@/data/ayaat";
 export default function SuraView() {
   const [sura, setSura] = useState([""]);
   const [title, setTitle] = useState("");
