@@ -193,7 +193,7 @@ export default function AddMistakesPerAya({
           }
           // TODO: add on hover for phone users to also ctrl click a work and add mistake
           id={`${ayaId}-${wordIndex}`}
-          className={`${getHighlight(`${ayaId}-${wordIndex}`)}  font-sans leading-relaxed`}
+          className={`${getHighlight(`${ayaId}-${wordIndex}`)}  font-uthman text-4xl leading-relaxed`}
           title={
             allMistakes?.get(`${ayaId}-${wordIndex}`)?.note
               ? `${
